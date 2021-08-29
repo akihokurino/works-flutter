@@ -9,6 +9,7 @@ class TextFieldView extends StatefulWidget {
   final ValueChanged<String>? onChange;
   final ValueChanged<String>? onSubmit;
   final String placeholder;
+  final String value;
   final TextInputType inputType;
   final List<TextInputFormatter> formaters;
 
@@ -19,6 +20,7 @@ class TextFieldView extends StatefulWidget {
       this.onChange,
       this.onSubmit,
       this.placeholder = "",
+      this.value = "",
       this.inputType = TextInputType.text,
       this.formaters = const []});
 
@@ -28,12 +30,14 @@ class TextFieldView extends StatefulWidget {
 
 class _TextFieldViewState extends State<TextFieldView> {
   bool _isOnSecureIcon = true;
-  final _controller = TextEditingController();
+  late final TextEditingController _controller;
   final _focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
+
+    _controller = TextEditingController(text: widget.value);
 
     _controller.addListener(() {
       final val = _controller.text;

@@ -4,9 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/login/login.dart';
-import 'package:works_flutter/ui/root.dart';
+import 'package:works_flutter/ui/root/root.dart';
 
 final RouteObserver routeObserver = new RouteObserver();
 
@@ -45,6 +46,8 @@ void main() async {
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   runZonedGuarded(() async {
-    runApp(app);
+    runApp(ProviderScope(
+      child: app,
+    ));
   }, (e, s) async => await FirebaseCrashlytics.instance.recordError(e, s));
 }

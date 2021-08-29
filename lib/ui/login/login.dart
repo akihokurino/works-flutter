@@ -1,21 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/component/appbar.dart';
 import 'package:works_flutter/ui/component/button.dart';
 import 'package:works_flutter/ui/component/text_field_view.dart';
+import 'package:works_flutter/ui/login/provider.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends HookWidget {
   static Widget init() {
     return LoginPage();
   }
 
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
   final _pinPutController = TextEditingController();
   final _pinPutFocusNode = FocusNode();
 
@@ -27,12 +25,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    useEffect(() {}, const []);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBarFactory(title: "ログイン").build(context),
@@ -41,16 +36,32 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildPhoneNumberInput() {
+    final context = useContext();
+    final state = useProvider(loginProvider);
+    final action = context.read(loginProvider.notifier);
+
     return Container(
       padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextFieldView(placeholder: "電話番号", inputType: TextInputType.phone),
+            TextFieldView(
+                placeholder: "電話番号",
+                value: state.phoneNumber,
+                inputType: TextInputType.phone,
+                onSubmit: (val) {
+                  action.setPhoneNumber(val);
+                }),
             Container(
               margin: EdgeInsets.only(top: 20),
-              child: ContainedButton(text: "ログイン", backgroundColor: ColorPalette.primary, textColor: Colors.white, onClick: () {}),
+              child: ContainedButton(
+                  text: "ログイン",
+                  backgroundColor: ColorPalette.primary,
+                  textColor: Colors.white,
+                  onClick: () {
+                    action.sendVerification();
+                  }),
             ),
           ],
         ),

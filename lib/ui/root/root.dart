@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:works_flutter/ui/component/tabbar.dart';
 
-import 'color.dart';
+import '../color.dart';
 
 class RootPage extends StatefulWidget {
   static Widget init() {
