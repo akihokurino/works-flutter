@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:works_flutter/ui/color.dart';
+import 'package:works_flutter/ui/login/login.dart';
 import 'package:works_flutter/ui/root.dart';
 
 final RouteObserver routeObserver = new RouteObserver();
@@ -23,10 +25,13 @@ void main() async {
         contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       ));
 
+  final isLogin = FirebaseAuth.instance.currentUser != null;
+  final home = isLogin ? RootPage.init() : LoginPage.init();
+
   final app = MaterialApp(
     debugShowCheckedModeBanner: false,
     theme: theme,
-    home: RootPage.init(),
+    home: home,
     builder: (context, child) {
       // 端末の文字サイズ設定を無効にする
       return MediaQuery(
