@@ -5,17 +5,23 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/login/login.dart';
 import 'package:works_flutter/ui/root/root.dart';
+import 'package:works_flutter/ui/transition.dart';
 
 final RouteObserver routeObserver = new RouteObserver();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  initializeDateFormatting("ja_JP");
   await Firebase.initializeApp();
 
   final GlobalKey<NavigatorState> globalKey = new GlobalKey<NavigatorState>();
+
+  final transition = Transition();
+  transition.setup(globalKey);
 
   final theme = ThemeData(
       primaryColor: ColorPalette.primary,

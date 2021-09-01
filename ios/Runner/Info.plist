@@ -41,5 +41,19 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>CFBundleURLTypes</key>
+    <array>
+    	<dict>
+    		<key>CFBundleTypeRole</key>
+    		<string>Editor</string>
+    		<key>CFBundleURLSchemes</key>
+    		<array>
+    			<string>com.googleusercontent.apps.947399668435-pfjk6r9v5012or8uiih5nqb472tl20o7</string>
+    		</array>
+    	</dict>
+    </array>
+    <!-- MisocaのOauth2のログインで必要 -->
+    <key>NSAllowsArbitraryLoads</key>
+    <true/>
 </dict>
 </plist>
