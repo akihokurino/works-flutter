@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:works_flutter/ui/component/tabbar.dart';
+import 'package:works_flutter/ui/invoice_history_list/invoice_history_list.dart';
 import 'package:works_flutter/ui/setting/setting.dart';
+import 'package:works_flutter/ui/supplier_list/supplier_list.dart';
 
 import '../color.dart';
 
@@ -64,15 +66,7 @@ class _RootPageState extends State<RootPage> {
   }
 
   List<Widget> _buildScreens() {
-    return [
-      Container(
-        color: Colors.blue,
-      ),
-      Container(
-        color: Colors.amberAccent,
-      ),
-      SettingPage.init(globalKeys[2])
-    ];
+    return [SupplierListPage(globalKey: globalKeys[0]), InvoiceHistoryListPage(globalKey: globalKeys[1]), SettingPage.init(globalKeys[2])];
   }
 
   List<PersistentBottomNavBarItem> _buildTabs() {
