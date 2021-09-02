@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:works_flutter/ui/component/tabbar.dart';
+import 'package:works_flutter/ui/setting/setting.dart';
 
 import '../color.dart';
 
@@ -16,7 +17,11 @@ class RootPage extends StatefulWidget {
 
 class _RootPageState extends State<RootPage> {
   late final PersistentTabController _tabController;
-  final List<GlobalKey<NavigatorState>> globalKeys = [GlobalKey<NavigatorState>(), GlobalKey<NavigatorState>()];
+  final List<GlobalKey<NavigatorState>> globalKeys = [
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>()
+  ];
 
   @override
   void initState() {
@@ -66,9 +71,7 @@ class _RootPageState extends State<RootPage> {
       Container(
         color: Colors.amberAccent,
       ),
-      Container(
-        color: Colors.greenAccent,
-      )
+      SettingPage.init(globalKeys[2])
     ];
   }
 

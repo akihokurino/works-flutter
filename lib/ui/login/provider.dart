@@ -3,8 +3,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:works_flutter/model/me.dart';
 import 'package:works_flutter/model/phone_number.dart';
 
-class LoginViewProvider extends StateNotifier<_State> {
-  LoginViewProvider() : super(_State(phoneNumber: null, verificationId: "", code: "", shouldShowPincodeInput: false, shouldShowHud: false));
+class _Provider extends StateNotifier<_State> {
+  _Provider() : super(_State.init());
 
   void setPhoneNumber(String phoneNumber) {
     state = state.setPhoneNumber(phoneNumber);
@@ -39,9 +39,10 @@ class LoginViewProvider extends StateNotifier<_State> {
     }
 
     state = state.setShouldHud(true);
-
     final credential = PhoneAuthProvider.credential(verificationId: state.verificationId, smsCode: state.code);
     final result = await FirebaseAuth.instance.signInWithCredential(credential);
+    state = state.setShouldHud(false);
+
     final user = result.user;
     return Me(id: user!.uid);
   }
@@ -60,6 +61,10 @@ class _State {
       required this.code,
       required this.shouldShowPincodeInput,
       required this.shouldShowHud});
+
+  static _State init() {
+    return _State(phoneNumber: null, verificationId: "", code: "", shouldShowPincodeInput: false, shouldShowHud: false);
+  }
 
   _State setShouldHud(bool should) {
     return _State(
@@ -93,4 +98,4 @@ class _State {
   }
 }
 
-final loginProvider = StateNotifierProvider<LoginViewProvider, _State>((_) => LoginViewProvider());
+final loginProvider = StateNotifierProvider<_Provider, _State>((_) => _Provider());

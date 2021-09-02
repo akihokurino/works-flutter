@@ -22,9 +22,8 @@ class Transition {
       return;
     }
 
-    Navigator.of(currentContext).pushAndRemoveUntil(
+    Navigator.of(currentContext).pushReplacement(
       MaterialPageRoute(builder: (BuildContext context) => to, settings: RouteSettings(name: to.toStringShort())),
-      ModalRoute.withName('/'),
     );
   }
 
