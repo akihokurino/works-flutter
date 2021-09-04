@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:works_flutter/provider/invoice_history.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/component/appbar.dart';
-import 'package:works_flutter/ui/invoice_history_list/provider.dart';
 
 const _normalTab = "通常";
 const _simpleTab = "簡易";
@@ -28,7 +28,7 @@ class InvoiceHistoryListPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(invoiceHistoryListProvider);
+    final state = useProvider(invoiceHistoryProvider);
     useEffect(() {}, const []);
 
     return DefaultTabController(
@@ -49,19 +49,15 @@ class InvoiceHistoryListPage extends HookWidget {
               )).build(context),
           body: TabBarView(
               children: _tabs.map((tab) {
-            return _createTabContent(tab);
+            switch (tab.text) {
+              case _normalTab:
+                return Container();
+              case _simpleTab:
+                return Container();
+              default:
+                return Container();
+            }
           }).toList()),
         ));
-  }
-
-  Widget _createTabContent(Tab tab) {
-    switch (tab.text) {
-      case _normalTab:
-        return Container();
-      case _simpleTab:
-        return Container();
-      default:
-        return Container();
-    }
   }
 }

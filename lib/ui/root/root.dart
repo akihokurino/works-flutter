@@ -4,9 +4,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:works_flutter/provider/auth.dart';
 import 'package:works_flutter/ui/component/tabbar.dart';
 import 'package:works_flutter/ui/invoice_history_list/invoice_history_list.dart';
-import 'package:works_flutter/ui/root/provider.dart';
 import 'package:works_flutter/ui/setting/setting.dart';
 import 'package:works_flutter/ui/supplier_list/supplier_list.dart';
 
@@ -26,17 +26,23 @@ class RootPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(rootProvider);
-    final action = useContext().read(rootProvider.notifier);
+    final authState = useProvider(authProvider);
+    final authAction = useContext().read(authProvider.notifier);
+    final tabIndex = useState(0);
+
     useEffect(() {
-      _tabController = PersistentTabController(initialIndex: state.tabIndex);
+      _tabController = PersistentTabController(initialIndex: 0);
       WidgetsBinding.instance!.addPostFrameCallback((_) {
-        action.getMe();
+        authAction.getMe();
       });
     }, const []);
 
-    _tabController.index = state.tabIndex;
-    final screens = _buildScreens();
+    _tabController.index = tabIndex.value;
+    final screens = [
+      SupplierListPage(globalKey: globalKeys[0]),
+      InvoiceHistoryListPage(globalKey: globalKeys[1]),
+      SettingPage.init(globalKeys[2])
+    ];
 
     final content = PersistentTabView.custom(
       context,
@@ -44,7 +50,26 @@ class RootPage extends HookWidget {
       screens: screens,
       itemCount: screens.length,
       customWidget: CustomTabBar(
-        items: _buildTabs(),
+        items: [
+          PersistentBottomNavBarItem(
+            icon: Icon(Icons.apartment),
+            title: "取引先",
+            activeColorPrimary: ColorPalette.primary,
+            inactiveColorPrimary: CupertinoColors.systemGrey,
+          ),
+          PersistentBottomNavBarItem(
+            icon: Icon(Icons.history),
+            title: "履歴",
+            activeColorPrimary: ColorPalette.primary,
+            inactiveColorPrimary: CupertinoColors.systemGrey,
+          ),
+          PersistentBottomNavBarItem(
+            icon: Icon(Icons.settings),
+            title: "設定",
+            activeColorPrimary: ColorPalette.primary,
+            inactiveColorPrimary: CupertinoColors.systemGrey,
+          ),
+        ],
         selectedIndex: _tabController.index,
         onItemSelected: (index) {
           if (_tabController.index == index) {
@@ -52,7 +77,7 @@ class RootPage extends HookWidget {
             return;
           }
 
-          action.changeTab(index);
+          tabIndex.value = index;
         },
       ),
       confineInSafeArea: true,
@@ -69,33 +94,6 @@ class RootPage extends HookWidget {
           valueColor: AlwaysStoppedAnimation<Color>(ColorPalette.primary),
         ),
         child: content,
-        inAsyncCall: state.shouldShowHud);
-  }
-
-  List<Widget> _buildScreens() {
-    return [SupplierListPage(globalKey: globalKeys[0]), InvoiceHistoryListPage(globalKey: globalKeys[1]), SettingPage.init(globalKeys[2])];
-  }
-
-  List<PersistentBottomNavBarItem> _buildTabs() {
-    return [
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.apartment),
-        title: "取引先",
-        activeColorPrimary: ColorPalette.primary,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.history),
-        title: "履歴",
-        activeColorPrimary: ColorPalette.primary,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.settings),
-        title: "設定",
-        activeColorPrimary: ColorPalette.primary,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
-      ),
-    ];
+        inAsyncCall: authState.shouldShowHud);
   }
 }

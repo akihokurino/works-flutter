@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:works_flutter/model/supplier.dart';
+import 'package:works_flutter/provider/auth.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/component/appbar.dart';
 import 'package:works_flutter/ui/font.dart';
-import 'package:works_flutter/ui/root/provider.dart';
 import 'package:works_flutter/ui/supplier_list/supplier_item.dart';
 
 class SupplierListPage extends HookWidget {
@@ -21,27 +21,17 @@ class SupplierListPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authState = useProvider(authProvider);
+    final suppliers = authState.me?.suppliers ?? List<Supplier>.empty();
     useEffect(() {}, const []);
-
-    return Scaffold(
-      key: globalKey,
-      backgroundColor: Colors.white,
-      appBar: AppBarFactory(title: "取引先").build(context),
-      body: _buildContent(),
-    );
-  }
-
-  Widget _buildContent() {
-    final state = useProvider(rootProvider);
-    final suppliers = state.me?.suppliers ?? List<Supplier>.empty();
 
     int totalAmount = 0;
     if (suppliers.isNotEmpty) {
       totalAmount = suppliers.map((v) => v.billingAmountIncludeTax).reduce((v1, v2) => v1 + v2);
     }
 
-    List<Widget> widgets = [];
-    widgets.add(Container(
+    List<Widget> listWidgets = [];
+    listWidgets.add(Container(
       margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
       child: Column(
         children: [
@@ -65,32 +55,35 @@ class SupplierListPage extends HookWidget {
       ),
     ));
 
-    widgets.addAll(suppliers.map((v) => Container(
+    listWidgets.addAll(suppliers.map((v) => Container(
           margin: EdgeInsets.only(bottom: 15),
           child: SupplierItem(supplier: v, onClick: () {}),
         )));
 
-    return Container(
-      child: NotificationListener(
-        child: RefreshIndicator(
-            key: _refreshIndicatorKey,
-            color: ColorPalette.primary,
-            onRefresh: _onRefresh,
-            child: Scrollbar(
-              child: ListView(
-                physics: AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                children: widgets,
-              ),
-            )),
-        onNotification: (ScrollNotification notification) {
-          return true;
-        },
+    return Scaffold(
+      key: globalKey,
+      backgroundColor: Colors.white,
+      appBar: AppBarFactory(title: "取引先").build(context),
+      body: Container(
+        child: NotificationListener(
+          child: RefreshIndicator(
+              key: _refreshIndicatorKey,
+              color: ColorPalette.primary,
+              onRefresh: () async {
+                await Future.delayed(Duration(seconds: 2));
+              },
+              child: Scrollbar(
+                child: ListView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  children: listWidgets,
+                ),
+              )),
+          onNotification: (ScrollNotification notification) {
+            return true;
+          },
+        ),
       ),
     );
-  }
-
-  Future<void> _onRefresh() async {
-    await Future.delayed(Duration(seconds: 2));
   }
 }

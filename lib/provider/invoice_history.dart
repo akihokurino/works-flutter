@@ -18,4 +18,4 @@ class _State {
   }
 }
 
-final supplierListProvider = StateNotifierProvider<_Provider, _State>((_) => _Provider());
+final invoiceHistoryProvider = StateNotifierProvider<_Provider, _State>((_) => _Provider());
