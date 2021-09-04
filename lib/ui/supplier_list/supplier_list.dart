@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:works_flutter/model/supplier.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/component/appbar.dart';
 import 'package:works_flutter/ui/font.dart';
@@ -9,14 +10,14 @@ import 'package:works_flutter/ui/root/provider.dart';
 import 'package:works_flutter/ui/supplier_list/supplier_item.dart';
 
 class SupplierListPage extends HookWidget {
-  final GlobalKey<NavigatorState> globalKey;
-  final _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
-
   static Widget init(GlobalKey<NavigatorState> globalKey) {
     return SupplierListPage(globalKey: globalKey);
   }
 
   SupplierListPage({required this.globalKey});
+
+  final GlobalKey<NavigatorState> globalKey;
+  final _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,12 @@ class SupplierListPage extends HookWidget {
 
   Widget _buildContent() {
     final state = useProvider(rootProvider);
-    final suppliers = state.me?.suppliers ?? [];
+    final suppliers = state.me?.suppliers ?? List<Supplier>.empty();
+
+    int totalAmount = 0;
+    if (suppliers.isNotEmpty) {
+      totalAmount = suppliers.map((v) => v.billingAmountIncludeTax).reduce((v1, v2) => v1 + v2);
+    }
 
     List<Widget> widgets = [];
     widgets.add(Container(
@@ -48,7 +54,7 @@ class SupplierListPage extends HookWidget {
                 )),
           ),
           Container(
-            child: Text("${suppliers.map((v) => v.billingAmountIncludeTax).reduce((v1, v2) => v1 + v2)}円",
+            child: Text("$totalAmount円",
                 style: TextStyle(
                   color: ColorPalette.text,
                   fontWeight: Font.boldWeight,

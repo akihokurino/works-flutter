@@ -17,7 +17,7 @@ class RootPage extends HookWidget {
     return RootPage();
   }
 
-  final _tabController = PersistentTabController(initialIndex: 0);
+  late final PersistentTabController _tabController;
   final List<GlobalKey<NavigatorState>> globalKeys = [
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
@@ -29,6 +29,7 @@ class RootPage extends HookWidget {
     final state = useProvider(rootProvider);
     final action = useContext().read(rootProvider.notifier);
     useEffect(() {
+      _tabController = PersistentTabController(initialIndex: state.tabIndex);
       WidgetsBinding.instance!.addPostFrameCallback((_) {
         action.getMe();
       });
