@@ -1,4 +1,6 @@
 import 'package:works_flutter/model/bank.dart';
+import 'package:works_flutter/model/invoice.dart';
+import 'package:works_flutter/model/invoice_history.dart';
 import 'package:works_flutter/model/me.dart';
 import 'package:works_flutter/model/sender.dart';
 import 'package:works_flutter/model/supplier.dart';
@@ -40,5 +42,34 @@ extension GetMe on GetMe$Query$Me {
       sender: _sender,
       bank: _bank,
     );
+  }
+}
+
+extension GetInvoiceHistoryList on GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge$InvoiceHistory {
+  InvoiceHistory model() {
+    return InvoiceHistory(
+        id: invoice.id,
+        invoice: Invoice(
+          id: invoice.id,
+          issueYMD: invoice.issueYmd,
+          paymentDueOnYMD: invoice.paymentDueOnYmd,
+          invoiceNumber: invoice.invoiceNumber,
+          paymentStatus: invoice.paymentStatus,
+          invoiceStatus: invoice.invoiceStatus,
+          recipientName: invoice.recipientName,
+          subject: invoice.subject,
+          totalAmount: invoice.totalAmount,
+          tax: invoice.tax,
+        ),
+        supplier: Supplier(
+          id: supplier.id,
+          name: supplier.name,
+          billingAmountIncludeTax: supplier.billingAmountIncludeTax,
+          billingAmountExcludeTax: supplier.billingAmountExcludeTax,
+          billingType: supplier.billingType,
+          endYm: supplier.endYm,
+          subject: supplier.subject,
+          subjectTemplate: supplier.subjectTemplate,
+        ));
   }
 }

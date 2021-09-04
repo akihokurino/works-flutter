@@ -23,7 +23,6 @@ class SupplierListPage extends HookWidget {
   Widget build(BuildContext context) {
     final supplierState = useProvider(supplierProvider);
     final supplierAction = useContext().read(supplierProvider.notifier);
-    final suppliers = supplierState.suppliers;
 
     useEffect(() {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -31,13 +30,11 @@ class SupplierListPage extends HookWidget {
       });
     }, const []);
 
-    int totalAmount = 0;
-    if (suppliers.isNotEmpty) {
-      totalAmount = suppliers.map((v) => v.billingAmountIncludeTax).reduce((v1, v2) => v1 + v2);
-    }
+    final totalAmount =
+        supplierState.suppliers.isNotEmpty ? supplierState.suppliers.map((v) => v.billingAmountIncludeTax).reduce((v1, v2) => v1 + v2) : 0;
 
-    List<Widget> listWidgets = [];
-    listWidgets.add(Container(
+    List<Widget> list = [];
+    list.add(Container(
       margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
       child: Column(
         children: [
@@ -61,7 +58,7 @@ class SupplierListPage extends HookWidget {
       ),
     ));
 
-    listWidgets.addAll(suppliers.map((v) => Container(
+    list.addAll(supplierState.suppliers.map((v) => Container(
           margin: EdgeInsets.only(bottom: 15),
           child: SupplierItem(supplier: v, onClick: () {}),
         )));
@@ -82,7 +79,7 @@ class SupplierListPage extends HookWidget {
                   child: ListView(
                     physics: AlwaysScrollableScrollPhysics(),
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    children: listWidgets,
+                    children: list,
                   ),
                 )),
             onNotification: (ScrollNotification notification) {

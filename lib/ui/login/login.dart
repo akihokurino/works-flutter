@@ -30,10 +30,10 @@ class LoginPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final shouldShowPincodeInput = useState(false);
-    final tel = useState("");
     final authState = useProvider(authProvider);
     final authAction = useContext().read(authProvider.notifier);
+    final shouldShowPincodeInput = useState(false);
+    final phoneNumber = useState("");
 
     useEffect(() {}, const []);
 
@@ -46,10 +46,10 @@ class LoginPage extends HookWidget {
             children: [
               TextFieldView(
                   placeholder: "電話番号",
-                  value: tel.value,
+                  value: phoneNumber.value,
                   inputType: TextInputType.phone,
                   onSubmit: (val) {
-                    tel.value = val;
+                    phoneNumber.value = val;
                   }),
               Container(
                 margin: EdgeInsets.only(top: 20),
@@ -58,7 +58,7 @@ class LoginPage extends HookWidget {
                     backgroundColor: ColorPalette.primary,
                     textColor: Colors.white,
                     onClick: () {
-                      authAction.sendVerification(PhoneNumber(val: tel.value)).then((v) => shouldShowPincodeInput.value = v);
+                      authAction.sendVerification(PhoneNumber(val: phoneNumber.value)).then((v) => shouldShowPincodeInput.value = v);
                     }),
               ),
             ],

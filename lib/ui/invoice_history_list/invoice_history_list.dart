@@ -30,8 +30,13 @@ class InvoiceHistoryListPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final invoiceHistoryState = useProvider(invoiceHistoryProvider);
+    final invoiceHistoryAction = useContext().read(invoiceHistoryProvider.notifier);
 
-    useEffect(() {}, const []);
+    useEffect(() {
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        invoiceHistoryAction.getHistories(false);
+      });
+    }, const []);
 
     final content = ModalProgressHUD(
         progressIndicator: CircularProgressIndicator(

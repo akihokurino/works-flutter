@@ -1,20 +1,46 @@
+import 'package:graphql/client.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:works_flutter/infra/graphql/api.dart';
+import 'package:works_flutter/infra/graphql/converter.dart';
+import 'package:works_flutter/infra/graphql_client.dart';
+import 'package:works_flutter/model/invoice_history.dart';
 
 class _Provider extends StateNotifier<_State> {
   _Provider() : super(_State.init());
+
+  Future<void> getHistories(bool isRefresh) async {
+    final gqClient = GQClient();
+
+    if (!isRefresh) {
+      state = state.setShouldHud(true);
+    }
+
+    final resp = await gqClient.query(QueryOptions(document: GetInvoiceHistoryListQuery().document));
+    final decoded = GetInvoiceHistoryList$Query.fromJson(resp);
+    state = state.setHistories(decoded.invoiceHistoryList.edges.map((v) => v.node.model()).toList());
+
+    if (!isRefresh) {
+      state = state.setShouldHud(false);
+    }
+  }
 }
 
 class _State {
   final bool shouldShowHud;
+  final List<InvoiceHistory> histories;
 
-  _State({required this.shouldShowHud});
+  _State({required this.shouldShowHud, required this.histories});
 
   static _State init() {
-    return _State(shouldShowHud: false);
+    return _State(shouldShowHud: false, histories: []);
   }
 
   _State setShouldHud(bool should) {
-    return _State(shouldShowHud: should);
+    return _State(shouldShowHud: should, histories: histories);
+  }
+
+  _State setHistories(List<InvoiceHistory> histories) {
+    return _State(shouldShowHud: shouldShowHud, histories: histories);
   }
 }
 
