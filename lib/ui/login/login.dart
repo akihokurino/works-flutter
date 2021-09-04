@@ -34,6 +34,7 @@ class LoginPage extends HookWidget {
     final tel = useState("");
     final authState = useProvider(authProvider);
     final authAction = useContext().read(authProvider.notifier);
+
     useEffect(() {}, const []);
 
     final phoneNumberInput = () {
@@ -57,8 +58,7 @@ class LoginPage extends HookWidget {
                     backgroundColor: ColorPalette.primary,
                     textColor: Colors.white,
                     onClick: () {
-                      authAction.sendVerification(PhoneNumber(val: tel.value));
-                      shouldShowPincodeInput.value = true;
+                      authAction.sendVerification(PhoneNumber(val: tel.value)).then((v) => shouldShowPincodeInput.value = v);
                     }),
               ),
             ],

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:works_flutter/provider/auth.dart';
 import 'package:works_flutter/ui/component/tabbar.dart';
@@ -26,29 +25,28 @@ class RootPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authState = useProvider(authProvider);
     final authAction = useContext().read(authProvider.notifier);
     final tabIndex = useState(0);
 
     useEffect(() {
-      _tabController = PersistentTabController(initialIndex: 0);
       WidgetsBinding.instance!.addPostFrameCallback((_) {
         authAction.getMe();
       });
+
+      _tabController = PersistentTabController(initialIndex: 0);
     }, const []);
 
     _tabController.index = tabIndex.value;
-    final screens = [
-      SupplierListPage(globalKey: globalKeys[0]),
-      InvoiceHistoryListPage(globalKey: globalKeys[1]),
-      SettingPage.init(globalKeys[2])
-    ];
 
-    final content = PersistentTabView.custom(
+    return PersistentTabView.custom(
       context,
       controller: _tabController,
-      screens: screens,
-      itemCount: screens.length,
+      screens: [
+        SupplierListPage(globalKey: globalKeys[0]),
+        InvoiceHistoryListPage(globalKey: globalKeys[1]),
+        SettingPage.init(globalKeys[2])
+      ],
+      itemCount: 3,
       customWidget: CustomTabBar(
         items: [
           PersistentBottomNavBarItem(
@@ -88,12 +86,5 @@ class RootPage extends HookWidget {
       hideNavigationBarWhenKeyboardShows: true,
       screenTransitionAnimation: ScreenTransitionAnimation(animateTabTransition: false),
     );
-
-    return ModalProgressHUD(
-        progressIndicator: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(ColorPalette.primary),
-        ),
-        child: content,
-        inAsyncCall: authState.shouldShowHud);
   }
 }

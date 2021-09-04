@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:works_flutter/model/supplier.dart';
-import 'package:works_flutter/provider/auth.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:works_flutter/provider/supplier.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/component/appbar.dart';
 import 'package:works_flutter/ui/font.dart';
@@ -21,9 +21,15 @@ class SupplierListPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authState = useProvider(authProvider);
-    final suppliers = authState.me?.suppliers ?? List<Supplier>.empty();
-    useEffect(() {}, const []);
+    final supplierState = useProvider(supplierProvider);
+    final supplierAction = useContext().read(supplierProvider.notifier);
+    final suppliers = supplierState.suppliers;
+
+    useEffect(() {
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        supplierAction.getSuppliers(false);
+      });
+    }, const []);
 
     int totalAmount = 0;
     if (suppliers.isNotEmpty) {
@@ -60,30 +66,37 @@ class SupplierListPage extends HookWidget {
           child: SupplierItem(supplier: v, onClick: () {}),
         )));
 
+    final content = ModalProgressHUD(
+        progressIndicator: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(ColorPalette.primary),
+        ),
+        child: Container(
+          child: NotificationListener(
+            child: RefreshIndicator(
+                key: _refreshIndicatorKey,
+                color: ColorPalette.primary,
+                onRefresh: () async {
+                  await supplierAction.getSuppliers(true);
+                },
+                child: Scrollbar(
+                  child: ListView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    children: listWidgets,
+                  ),
+                )),
+            onNotification: (ScrollNotification notification) {
+              return true;
+            },
+          ),
+        ),
+        inAsyncCall: supplierState.shouldShowHud);
+
     return Scaffold(
       key: globalKey,
       backgroundColor: Colors.white,
       appBar: AppBarFactory(title: "取引先").build(context),
-      body: Container(
-        child: NotificationListener(
-          child: RefreshIndicator(
-              key: _refreshIndicatorKey,
-              color: ColorPalette.primary,
-              onRefresh: () async {
-                await Future.delayed(Duration(seconds: 2));
-              },
-              child: Scrollbar(
-                child: ListView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                  children: listWidgets,
-                ),
-              )),
-          onNotification: (ScrollNotification notification) {
-            return true;
-          },
-        ),
-      ),
+      body: content,
     );
   }
 }

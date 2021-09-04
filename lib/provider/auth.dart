@@ -20,9 +20,9 @@ class _Provider extends StateNotifier<_State> {
     state = state.setMe(decoded.me.model());
   }
 
-  Future<void> sendVerification(PhoneNumber phoneNumber) async {
+  Future<bool> sendVerification(PhoneNumber phoneNumber) async {
     if (phoneNumber.val.isEmpty) {
-      return null;
+      return false;
     }
 
     await FirebaseAuth.instance.verifyPhoneNumber(
@@ -37,24 +37,30 @@ class _Provider extends StateNotifier<_State> {
       verificationCompleted: (PhoneAuthCredential phoneAuthCredential) {},
       verificationFailed: (FirebaseAuthException error) {},
     );
+
+    return true;
   }
 
-  Future<void> signIn(String code) async {
+  Future<bool> signIn(String code) async {
     if (code.isEmpty) {
-      return null;
+      return false;
     }
 
     state = state.setShouldHud(true);
     final credential = PhoneAuthProvider.credential(verificationId: state.verificationId, smsCode: code);
     await FirebaseAuth.instance.signInWithCredential(credential);
     state = state.setShouldHud(false);
+
+    return true;
   }
 
-  Future<void> signOut() async {
+  Future<bool> signOut() async {
     state = state.setShouldHud(true);
     await FirebaseAuth.instance.signOut();
     state = state.setShouldHud(false);
     state = state.setMe(null);
+
+    return true;
   }
 }
 

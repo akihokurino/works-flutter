@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:works_flutter/provider/invoice_history.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/component/appbar.dart';
@@ -28,8 +29,26 @@ class InvoiceHistoryListPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = useProvider(invoiceHistoryProvider);
+    final invoiceHistoryState = useProvider(invoiceHistoryProvider);
+
     useEffect(() {}, const []);
+
+    final content = ModalProgressHUD(
+        progressIndicator: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(ColorPalette.primary),
+        ),
+        child: TabBarView(
+            children: _tabs.map((tab) {
+          switch (tab.text) {
+            case _normalTab:
+              return Container();
+            case _simpleTab:
+              return Container();
+            default:
+              return Container();
+          }
+        }).toList()),
+        inAsyncCall: invoiceHistoryState.shouldShowHud);
 
     return DefaultTabController(
         length: _tabs.length,
@@ -47,17 +66,7 @@ class InvoiceHistoryListPage extends HookWidget {
                 indicatorWeight: 2,
                 labelColor: ColorPalette.primary,
               )).build(context),
-          body: TabBarView(
-              children: _tabs.map((tab) {
-            switch (tab.text) {
-              case _normalTab:
-                return Container();
-              case _simpleTab:
-                return Container();
-              default:
-                return Container();
-            }
-          }).toList()),
+          body: content,
         ));
   }
 }
