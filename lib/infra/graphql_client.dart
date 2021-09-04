@@ -23,12 +23,15 @@ class GQClient {
     final headers = Map<String, String>();
     headers["authorization"] = "bearer $token";
 
+    print("bearer $token");
+
     final client = GraphQLClient(
       cache: GraphQLCache(),
       link: HttpLink(_baseUrl, defaultHeaders: headers),
     );
 
     final result = await client.query(options);
+    print(result);
 
     if (result.hasException) {
       String message = "エラーが発生しました";

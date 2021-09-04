@@ -1,6 +1,35 @@
 query GetMe {
     me {
-        ...MeFragment
+        id
+        supplierList {
+            edges {
+                node {
+                    id
+                    name
+                    billingAmountIncludeTax
+                    billingAmountExcludeTax
+                    billingType
+                    endYm
+                    subject
+                    subjectTemplate
+                }
+            }
+        }
+        sender {
+            id
+            name
+            email
+            tel
+            postalCode
+            address
+        }
+        bank {
+            id
+            name
+            code
+            accountType
+            accountNumber
+        }
     }
 }
 
@@ -8,7 +37,16 @@ query GetInvoiceList($supplierId: String!) {
     invoiceList(supplierId: $supplierId) {
         edges {
             node {
-                ...InvoiceFragment
+                id
+                issueYmd
+                paymentDueOnYmd
+                invoiceNumber
+                paymentStatus
+                invoiceStatus
+                recipientName
+                subject
+                totalAmount
+                tax
             }
         }
     }
@@ -18,7 +56,28 @@ query GetInvoiceHistoryList {
     invoiceHistoryList {
         edges {
             node {
-                ...InvoiceHistoryFragment
+                invoice {
+                    id
+                    issueYmd
+                    paymentDueOnYmd
+                    invoiceNumber
+                    paymentStatus
+                    invoiceStatus
+                    recipientName
+                    subject
+                    totalAmount
+                    tax
+                }
+                supplier {
+                    id
+                    name
+                    billingAmountIncludeTax
+                    billingAmountExcludeTax
+                    billingType
+                    endYm
+                    subject
+                    subjectTemplate
+                }
             }
         }
     }
@@ -26,7 +85,7 @@ query GetInvoiceHistoryList {
 
 mutation Authenticate {
     authenticate {
-        ...MeFragment
+        id
     }
 }
 
@@ -43,7 +102,7 @@ mutation CreateSupplier($name: String!,
         endYm: $endYm,
         subject: $subject,
         subjectTemplate: $subjectTemplate}) {
-        ...SupplierFragment
+        id
     }
 }
 
@@ -60,7 +119,7 @@ mutation UpdateSupplier($id: String!,
         endYm: $endYm,
         subject: $subject,
         subjectTemplate: $subjectTemplate}) {
-        ...SupplierFragment
+        id
     }
 }
 
@@ -70,7 +129,7 @@ mutation RegisterBank($name: String!, $code: String!, $accountType: GraphQLBankA
         code: $code,
         accountType: $accountType,
         accountNumber: $accountNumber}) {
-        ...BankFragment
+        id
     }
 }
 
@@ -81,7 +140,7 @@ mutation RegisterSender($name: String!, $email: String!, $tel: String!, $postalC
         tel: $tel,
         postalCode: $postalCode,
         address: $address}) {
-        ...SenderFragment
+        id
     }
 }
 
@@ -111,71 +170,4 @@ mutation ConnectMisoca($code: String!) {
 
 mutation RefreshMisoca {
     refreshMisoca
-}
-
-fragment MeFragment on Me {
-    id
-    supplierList {
-        edges {
-            node {
-                ...SupplierFragment
-            }
-        }
-    }
-    sender {
-        ...SenderFragment
-    }
-    bank {
-        ...BankFragment
-    }
-}
-
-fragment SupplierFragment on Supplier {
-    id
-    name
-    billingAmountIncludeTax
-    billingAmountExcludeTax
-    billingType
-    endYm
-    subject
-    subjectTemplate
-}
-
-fragment InvoiceFragment on Invoice {
-    id
-    issueYmd
-    paymentDueOnYmd
-    invoiceNumber
-    paymentStatus
-    invoiceStatus
-    recipientName
-    subject
-    totalAmount
-    tax
-}
-
-fragment InvoiceHistoryFragment on InvoiceHistory {
-    invoice {
-        ...InvoiceFragment
-    }
-    supplier {
-        ...SupplierFragment
-    }
-}
-
-fragment BankFragment on Bank {
-    id
-    name
-    code
-    accountType
-    accountNumber
-}
-
-fragment SenderFragment on Sender {
-    id
-    name
-    email
-    tel
-    postalCode
-    address
 }

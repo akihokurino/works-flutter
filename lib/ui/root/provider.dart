@@ -17,25 +17,34 @@ class _Provider extends StateNotifier<_State> {
     state = state.setShouldHud(false);
     state = state.setMe(decoded.me.model());
   }
+
+  void changeTab(int index) {
+    state = state.setTabIndex(index);
+  }
 }
 
 class _State {
   final bool shouldShowHud;
   final Me? me;
+  final int tabIndex;
 
-  _State({required this.shouldShowHud, required this.me});
+  _State({required this.shouldShowHud, required this.me, required this.tabIndex});
 
   static _State init() {
-    return _State(shouldShowHud: false, me: null);
+    return _State(shouldShowHud: false, me: null, tabIndex: 0);
   }
 
   _State setShouldHud(bool should) {
-    return _State(shouldShowHud: should, me: me);
+    return _State(shouldShowHud: should, me: me, tabIndex: tabIndex);
   }
 
   _State setMe(Me me) {
-    return _State(shouldShowHud: shouldShowHud, me: me);
+    return _State(shouldShowHud: shouldShowHud, me: me, tabIndex: tabIndex);
+  }
+
+  _State setTabIndex(int index) {
+    return _State(shouldShowHud: shouldShowHud, me: me, tabIndex: index);
   }
 }
 
-final invoiceHistoryListProvider = StateNotifierProvider<_Provider, _State>((_) => _Provider());
+final rootProvider = StateNotifierProvider<_Provider, _State>((_) => _Provider());

@@ -7,42 +7,10 @@ part of 'api.graphql.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-GetMe$Query$Me _$GetMe$Query$MeFromJson(Map<String, dynamic> json) {
-  return GetMe$Query$Me()
-    ..id = json['id'] as String
-    ..supplierList = MeFragmentMixin$SupplierConnection.fromJson(
-        json['supplierList'] as Map<String, dynamic>)
-    ..sender = json['sender'] == null
-        ? null
-        : MeFragmentMixin$Sender.fromJson(
-            json['sender'] as Map<String, dynamic>)
-    ..bank = json['bank'] == null
-        ? null
-        : MeFragmentMixin$Bank.fromJson(json['bank'] as Map<String, dynamic>);
-}
-
-Map<String, dynamic> _$GetMe$Query$MeToJson(GetMe$Query$Me instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'supplierList': instance.supplierList.toJson(),
-      'sender': instance.sender?.toJson(),
-      'bank': instance.bank?.toJson(),
-    };
-
-GetMe$Query _$GetMe$QueryFromJson(Map<String, dynamic> json) {
-  return GetMe$Query()
-    ..me = GetMe$Query$Me.fromJson(json['me'] as Map<String, dynamic>);
-}
-
-Map<String, dynamic> _$GetMe$QueryToJson(GetMe$Query instance) =>
-    <String, dynamic>{
-      'me': instance.me.toJson(),
-    };
-
-MeFragmentMixin$SupplierConnection$SupplierEdge$Supplier
-    _$MeFragmentMixin$SupplierConnection$SupplierEdge$SupplierFromJson(
+GetMe$Query$Me$SupplierConnection$SupplierEdge$Supplier
+    _$GetMe$Query$Me$SupplierConnection$SupplierEdge$SupplierFromJson(
         Map<String, dynamic> json) {
-  return MeFragmentMixin$SupplierConnection$SupplierEdge$Supplier()
+  return GetMe$Query$Me$SupplierConnection$SupplierEdge$Supplier()
     ..id = json['id'] as String
     ..name = json['name'] as String
     ..billingAmountIncludeTax = json['billingAmountIncludeTax'] as int
@@ -55,19 +23,19 @@ MeFragmentMixin$SupplierConnection$SupplierEdge$Supplier
     ..subjectTemplate = json['subjectTemplate'] as String;
 }
 
-Map<String,
-    dynamic> _$MeFragmentMixin$SupplierConnection$SupplierEdge$SupplierToJson(
-        MeFragmentMixin$SupplierConnection$SupplierEdge$Supplier instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'billingAmountIncludeTax': instance.billingAmountIncludeTax,
-      'billingAmountExcludeTax': instance.billingAmountExcludeTax,
-      'billingType': _$GraphQLBillingTypeEnumMap[instance.billingType],
-      'endYm': instance.endYm,
-      'subject': instance.subject,
-      'subjectTemplate': instance.subjectTemplate,
-    };
+Map<String, dynamic>
+    _$GetMe$Query$Me$SupplierConnection$SupplierEdge$SupplierToJson(
+            GetMe$Query$Me$SupplierConnection$SupplierEdge$Supplier instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'name': instance.name,
+          'billingAmountIncludeTax': instance.billingAmountIncludeTax,
+          'billingAmountExcludeTax': instance.billingAmountExcludeTax,
+          'billingType': _$GraphQLBillingTypeEnumMap[instance.billingType],
+          'endYm': instance.endYm,
+          'subject': instance.subject,
+          'subjectTemplate': instance.subjectTemplate,
+        };
 
 K _$enumDecode<K, V>(
   Map<K, V> enumValues,
@@ -101,38 +69,38 @@ const _$GraphQLBillingTypeEnumMap = {
   GraphQLBillingType.artemisUnknown: 'ARTEMIS_UNKNOWN',
 };
 
-MeFragmentMixin$SupplierConnection$SupplierEdge
-    _$MeFragmentMixin$SupplierConnection$SupplierEdgeFromJson(
+GetMe$Query$Me$SupplierConnection$SupplierEdge
+    _$GetMe$Query$Me$SupplierConnection$SupplierEdgeFromJson(
         Map<String, dynamic> json) {
-  return MeFragmentMixin$SupplierConnection$SupplierEdge()
-    ..node = MeFragmentMixin$SupplierConnection$SupplierEdge$Supplier.fromJson(
+  return GetMe$Query$Me$SupplierConnection$SupplierEdge()
+    ..node = GetMe$Query$Me$SupplierConnection$SupplierEdge$Supplier.fromJson(
         json['node'] as Map<String, dynamic>);
 }
 
-Map<String, dynamic> _$MeFragmentMixin$SupplierConnection$SupplierEdgeToJson(
-        MeFragmentMixin$SupplierConnection$SupplierEdge instance) =>
+Map<String, dynamic> _$GetMe$Query$Me$SupplierConnection$SupplierEdgeToJson(
+        GetMe$Query$Me$SupplierConnection$SupplierEdge instance) =>
     <String, dynamic>{
       'node': instance.node.toJson(),
     };
 
-MeFragmentMixin$SupplierConnection _$MeFragmentMixin$SupplierConnectionFromJson(
+GetMe$Query$Me$SupplierConnection _$GetMe$Query$Me$SupplierConnectionFromJson(
     Map<String, dynamic> json) {
-  return MeFragmentMixin$SupplierConnection()
+  return GetMe$Query$Me$SupplierConnection()
     ..edges = (json['edges'] as List<dynamic>)
-        .map((e) => MeFragmentMixin$SupplierConnection$SupplierEdge.fromJson(
+        .map((e) => GetMe$Query$Me$SupplierConnection$SupplierEdge.fromJson(
             e as Map<String, dynamic>))
         .toList();
 }
 
-Map<String, dynamic> _$MeFragmentMixin$SupplierConnectionToJson(
-        MeFragmentMixin$SupplierConnection instance) =>
+Map<String, dynamic> _$GetMe$Query$Me$SupplierConnectionToJson(
+        GetMe$Query$Me$SupplierConnection instance) =>
     <String, dynamic>{
       'edges': instance.edges.map((e) => e.toJson()).toList(),
     };
 
-MeFragmentMixin$Sender _$MeFragmentMixin$SenderFromJson(
+GetMe$Query$Me$Sender _$GetMe$Query$Me$SenderFromJson(
     Map<String, dynamic> json) {
-  return MeFragmentMixin$Sender()
+  return GetMe$Query$Me$Sender()
     ..id = json['id'] as String
     ..name = json['name'] as String
     ..email = json['email'] as String
@@ -141,8 +109,8 @@ MeFragmentMixin$Sender _$MeFragmentMixin$SenderFromJson(
     ..address = json['address'] as String;
 }
 
-Map<String, dynamic> _$MeFragmentMixin$SenderToJson(
-        MeFragmentMixin$Sender instance) =>
+Map<String, dynamic> _$GetMe$Query$Me$SenderToJson(
+        GetMe$Query$Me$Sender instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
@@ -152,8 +120,8 @@ Map<String, dynamic> _$MeFragmentMixin$SenderToJson(
       'address': instance.address,
     };
 
-MeFragmentMixin$Bank _$MeFragmentMixin$BankFromJson(Map<String, dynamic> json) {
-  return MeFragmentMixin$Bank()
+GetMe$Query$Me$Bank _$GetMe$Query$Me$BankFromJson(Map<String, dynamic> json) {
+  return GetMe$Query$Me$Bank()
     ..id = json['id'] as String
     ..name = json['name'] as String
     ..code = json['code'] as String
@@ -163,8 +131,8 @@ MeFragmentMixin$Bank _$MeFragmentMixin$BankFromJson(Map<String, dynamic> json) {
     ..accountNumber = json['accountNumber'] as String;
 }
 
-Map<String, dynamic> _$MeFragmentMixin$BankToJson(
-        MeFragmentMixin$Bank instance) =>
+Map<String, dynamic> _$GetMe$Query$Me$BankToJson(
+        GetMe$Query$Me$Bank instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
@@ -179,78 +147,35 @@ const _$GraphQLBankAccountTypeEnumMap = {
   GraphQLBankAccountType.artemisUnknown: 'ARTEMIS_UNKNOWN',
 };
 
-InvoiceHistoryFragmentMixin$Invoice
-    _$InvoiceHistoryFragmentMixin$InvoiceFromJson(Map<String, dynamic> json) {
-  return InvoiceHistoryFragmentMixin$Invoice()
+GetMe$Query$Me _$GetMe$Query$MeFromJson(Map<String, dynamic> json) {
+  return GetMe$Query$Me()
     ..id = json['id'] as String
-    ..issueYmd = json['issueYmd'] as String
-    ..paymentDueOnYmd = json['paymentDueOnYmd'] as String
-    ..invoiceNumber = json['invoiceNumber'] as String
-    ..paymentStatus = _$enumDecode(
-        _$GraphQLPaymentStatusEnumMap, json['paymentStatus'],
-        unknownValue: GraphQLPaymentStatus.artemisUnknown)
-    ..invoiceStatus = _$enumDecode(
-        _$GraphQLInvoiceStatusEnumMap, json['invoiceStatus'],
-        unknownValue: GraphQLInvoiceStatus.artemisUnknown)
-    ..recipientName = json['recipientName'] as String
-    ..subject = json['subject'] as String
-    ..totalAmount = json['totalAmount'] as int
-    ..tax = json['tax'] as int;
+    ..supplierList = GetMe$Query$Me$SupplierConnection.fromJson(
+        json['supplierList'] as Map<String, dynamic>)
+    ..sender = json['sender'] == null
+        ? null
+        : GetMe$Query$Me$Sender.fromJson(json['sender'] as Map<String, dynamic>)
+    ..bank = json['bank'] == null
+        ? null
+        : GetMe$Query$Me$Bank.fromJson(json['bank'] as Map<String, dynamic>);
 }
 
-Map<String, dynamic> _$InvoiceHistoryFragmentMixin$InvoiceToJson(
-        InvoiceHistoryFragmentMixin$Invoice instance) =>
+Map<String, dynamic> _$GetMe$Query$MeToJson(GetMe$Query$Me instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'issueYmd': instance.issueYmd,
-      'paymentDueOnYmd': instance.paymentDueOnYmd,
-      'invoiceNumber': instance.invoiceNumber,
-      'paymentStatus': _$GraphQLPaymentStatusEnumMap[instance.paymentStatus],
-      'invoiceStatus': _$GraphQLInvoiceStatusEnumMap[instance.invoiceStatus],
-      'recipientName': instance.recipientName,
-      'subject': instance.subject,
-      'totalAmount': instance.totalAmount,
-      'tax': instance.tax,
+      'supplierList': instance.supplierList.toJson(),
+      'sender': instance.sender?.toJson(),
+      'bank': instance.bank?.toJson(),
     };
 
-const _$GraphQLPaymentStatusEnumMap = {
-  GraphQLPaymentStatus.unPaid: 'UnPaid',
-  GraphQLPaymentStatus.paid: 'Paid',
-  GraphQLPaymentStatus.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
-const _$GraphQLInvoiceStatusEnumMap = {
-  GraphQLInvoiceStatus.unSubmitted: 'UnSubmitted',
-  GraphQLInvoiceStatus.submitted: 'Submitted',
-  GraphQLInvoiceStatus.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
-InvoiceHistoryFragmentMixin$Supplier
-    _$InvoiceHistoryFragmentMixin$SupplierFromJson(Map<String, dynamic> json) {
-  return InvoiceHistoryFragmentMixin$Supplier()
-    ..id = json['id'] as String
-    ..name = json['name'] as String
-    ..billingAmountIncludeTax = json['billingAmountIncludeTax'] as int
-    ..billingAmountExcludeTax = json['billingAmountExcludeTax'] as int
-    ..billingType = _$enumDecode(
-        _$GraphQLBillingTypeEnumMap, json['billingType'],
-        unknownValue: GraphQLBillingType.artemisUnknown)
-    ..endYm = json['endYm'] as String?
-    ..subject = json['subject'] as String
-    ..subjectTemplate = json['subjectTemplate'] as String;
+GetMe$Query _$GetMe$QueryFromJson(Map<String, dynamic> json) {
+  return GetMe$Query()
+    ..me = GetMe$Query$Me.fromJson(json['me'] as Map<String, dynamic>);
 }
 
-Map<String, dynamic> _$InvoiceHistoryFragmentMixin$SupplierToJson(
-        InvoiceHistoryFragmentMixin$Supplier instance) =>
+Map<String, dynamic> _$GetMe$QueryToJson(GetMe$Query instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'billingAmountIncludeTax': instance.billingAmountIncludeTax,
-      'billingAmountExcludeTax': instance.billingAmountExcludeTax,
-      'billingType': _$GraphQLBillingTypeEnumMap[instance.billingType],
-      'endYm': instance.endYm,
-      'subject': instance.subject,
-      'subjectTemplate': instance.subjectTemplate,
+      'me': instance.me.toJson(),
     };
 
 GetInvoiceList$Query$InvoiceConnection$InvoiceEdge$Invoice
@@ -288,6 +213,18 @@ Map<String,
       'totalAmount': instance.totalAmount,
       'tax': instance.tax,
     };
+
+const _$GraphQLPaymentStatusEnumMap = {
+  GraphQLPaymentStatus.unPaid: 'UnPaid',
+  GraphQLPaymentStatus.paid: 'Paid',
+  GraphQLPaymentStatus.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+const _$GraphQLInvoiceStatusEnumMap = {
+  GraphQLInvoiceStatus.unSubmitted: 'UnSubmitted',
+  GraphQLInvoiceStatus.submitted: 'Submitted',
+  GraphQLInvoiceStatus.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
 
 GetInvoiceList$Query$InvoiceConnection$InvoiceEdge
     _$GetInvoiceList$Query$InvoiceConnection$InvoiceEdgeFromJson(
@@ -332,14 +269,86 @@ Map<String, dynamic> _$GetInvoiceList$QueryToJson(
       'invoiceList': instance.invoiceList.toJson(),
     };
 
+GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge$InvoiceHistory$Invoice
+    _$GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge$InvoiceHistory$InvoiceFromJson(
+        Map<String, dynamic> json) {
+  return GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge$InvoiceHistory$Invoice()
+    ..id = json['id'] as String
+    ..issueYmd = json['issueYmd'] as String
+    ..paymentDueOnYmd = json['paymentDueOnYmd'] as String
+    ..invoiceNumber = json['invoiceNumber'] as String
+    ..paymentStatus = _$enumDecode(
+        _$GraphQLPaymentStatusEnumMap, json['paymentStatus'],
+        unknownValue: GraphQLPaymentStatus.artemisUnknown)
+    ..invoiceStatus = _$enumDecode(
+        _$GraphQLInvoiceStatusEnumMap, json['invoiceStatus'],
+        unknownValue: GraphQLInvoiceStatus.artemisUnknown)
+    ..recipientName = json['recipientName'] as String
+    ..subject = json['subject'] as String
+    ..totalAmount = json['totalAmount'] as int
+    ..tax = json['tax'] as int;
+}
+
+Map<String, dynamic>
+    _$GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge$InvoiceHistory$InvoiceToJson(
+            GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge$InvoiceHistory$Invoice
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'issueYmd': instance.issueYmd,
+          'paymentDueOnYmd': instance.paymentDueOnYmd,
+          'invoiceNumber': instance.invoiceNumber,
+          'paymentStatus':
+              _$GraphQLPaymentStatusEnumMap[instance.paymentStatus],
+          'invoiceStatus':
+              _$GraphQLInvoiceStatusEnumMap[instance.invoiceStatus],
+          'recipientName': instance.recipientName,
+          'subject': instance.subject,
+          'totalAmount': instance.totalAmount,
+          'tax': instance.tax,
+        };
+
+GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge$InvoiceHistory$Supplier
+    _$GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge$InvoiceHistory$SupplierFromJson(
+        Map<String, dynamic> json) {
+  return GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge$InvoiceHistory$Supplier()
+    ..id = json['id'] as String
+    ..name = json['name'] as String
+    ..billingAmountIncludeTax = json['billingAmountIncludeTax'] as int
+    ..billingAmountExcludeTax = json['billingAmountExcludeTax'] as int
+    ..billingType = _$enumDecode(
+        _$GraphQLBillingTypeEnumMap, json['billingType'],
+        unknownValue: GraphQLBillingType.artemisUnknown)
+    ..endYm = json['endYm'] as String?
+    ..subject = json['subject'] as String
+    ..subjectTemplate = json['subjectTemplate'] as String;
+}
+
+Map<String, dynamic>
+    _$GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge$InvoiceHistory$SupplierToJson(
+            GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge$InvoiceHistory$Supplier
+                instance) =>
+        <String, dynamic>{
+          'id': instance.id,
+          'name': instance.name,
+          'billingAmountIncludeTax': instance.billingAmountIncludeTax,
+          'billingAmountExcludeTax': instance.billingAmountExcludeTax,
+          'billingType': _$GraphQLBillingTypeEnumMap[instance.billingType],
+          'endYm': instance.endYm,
+          'subject': instance.subject,
+          'subjectTemplate': instance.subjectTemplate,
+        };
+
 GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge$InvoiceHistory
     _$GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge$InvoiceHistoryFromJson(
         Map<String, dynamic> json) {
   return GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge$InvoiceHistory()
-    ..invoice = InvoiceHistoryFragmentMixin$Invoice.fromJson(
-        json['invoice'] as Map<String, dynamic>)
-    ..supplier = InvoiceHistoryFragmentMixin$Supplier.fromJson(
-        json['supplier'] as Map<String, dynamic>);
+    ..invoice =
+        GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge$InvoiceHistory$Invoice
+            .fromJson(json['invoice'] as Map<String, dynamic>)
+    ..supplier =
+        GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge$InvoiceHistory$Supplier
+            .fromJson(json['supplier'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic>
@@ -402,26 +411,13 @@ Map<String, dynamic> _$GetInvoiceHistoryList$QueryToJson(
 
 Authenticate$Mutation$Me _$Authenticate$Mutation$MeFromJson(
     Map<String, dynamic> json) {
-  return Authenticate$Mutation$Me()
-    ..id = json['id'] as String
-    ..supplierList = MeFragmentMixin$SupplierConnection.fromJson(
-        json['supplierList'] as Map<String, dynamic>)
-    ..sender = json['sender'] == null
-        ? null
-        : MeFragmentMixin$Sender.fromJson(
-            json['sender'] as Map<String, dynamic>)
-    ..bank = json['bank'] == null
-        ? null
-        : MeFragmentMixin$Bank.fromJson(json['bank'] as Map<String, dynamic>);
+  return Authenticate$Mutation$Me()..id = json['id'] as String;
 }
 
 Map<String, dynamic> _$Authenticate$Mutation$MeToJson(
         Authenticate$Mutation$Me instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'supplierList': instance.supplierList.toJson(),
-      'sender': instance.sender?.toJson(),
-      'bank': instance.bank?.toJson(),
     };
 
 Authenticate$Mutation _$Authenticate$MutationFromJson(
@@ -439,30 +435,13 @@ Map<String, dynamic> _$Authenticate$MutationToJson(
 
 CreateSupplier$Mutation$Supplier _$CreateSupplier$Mutation$SupplierFromJson(
     Map<String, dynamic> json) {
-  return CreateSupplier$Mutation$Supplier()
-    ..id = json['id'] as String
-    ..name = json['name'] as String
-    ..billingAmountIncludeTax = json['billingAmountIncludeTax'] as int
-    ..billingAmountExcludeTax = json['billingAmountExcludeTax'] as int
-    ..billingType = _$enumDecode(
-        _$GraphQLBillingTypeEnumMap, json['billingType'],
-        unknownValue: GraphQLBillingType.artemisUnknown)
-    ..endYm = json['endYm'] as String?
-    ..subject = json['subject'] as String
-    ..subjectTemplate = json['subjectTemplate'] as String;
+  return CreateSupplier$Mutation$Supplier()..id = json['id'] as String;
 }
 
 Map<String, dynamic> _$CreateSupplier$Mutation$SupplierToJson(
         CreateSupplier$Mutation$Supplier instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'name': instance.name,
-      'billingAmountIncludeTax': instance.billingAmountIncludeTax,
-      'billingAmountExcludeTax': instance.billingAmountExcludeTax,
-      'billingType': _$GraphQLBillingTypeEnumMap[instance.billingType],
-      'endYm': instance.endYm,
-      'subject': instance.subject,
-      'subjectTemplate': instance.subjectTemplate,
     };
 
 CreateSupplier$Mutation _$CreateSupplier$MutationFromJson(
@@ -480,30 +459,13 @@ Map<String, dynamic> _$CreateSupplier$MutationToJson(
 
 UpdateSupplier$Mutation$Supplier _$UpdateSupplier$Mutation$SupplierFromJson(
     Map<String, dynamic> json) {
-  return UpdateSupplier$Mutation$Supplier()
-    ..id = json['id'] as String
-    ..name = json['name'] as String
-    ..billingAmountIncludeTax = json['billingAmountIncludeTax'] as int
-    ..billingAmountExcludeTax = json['billingAmountExcludeTax'] as int
-    ..billingType = _$enumDecode(
-        _$GraphQLBillingTypeEnumMap, json['billingType'],
-        unknownValue: GraphQLBillingType.artemisUnknown)
-    ..endYm = json['endYm'] as String?
-    ..subject = json['subject'] as String
-    ..subjectTemplate = json['subjectTemplate'] as String;
+  return UpdateSupplier$Mutation$Supplier()..id = json['id'] as String;
 }
 
 Map<String, dynamic> _$UpdateSupplier$Mutation$SupplierToJson(
         UpdateSupplier$Mutation$Supplier instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'name': instance.name,
-      'billingAmountIncludeTax': instance.billingAmountIncludeTax,
-      'billingAmountExcludeTax': instance.billingAmountExcludeTax,
-      'billingType': _$GraphQLBillingTypeEnumMap[instance.billingType],
-      'endYm': instance.endYm,
-      'subject': instance.subject,
-      'subjectTemplate': instance.subjectTemplate,
     };
 
 UpdateSupplier$Mutation _$UpdateSupplier$MutationFromJson(
@@ -521,24 +483,13 @@ Map<String, dynamic> _$UpdateSupplier$MutationToJson(
 
 RegisterBank$Mutation$Bank _$RegisterBank$Mutation$BankFromJson(
     Map<String, dynamic> json) {
-  return RegisterBank$Mutation$Bank()
-    ..id = json['id'] as String
-    ..name = json['name'] as String
-    ..code = json['code'] as String
-    ..accountType = _$enumDecode(
-        _$GraphQLBankAccountTypeEnumMap, json['accountType'],
-        unknownValue: GraphQLBankAccountType.artemisUnknown)
-    ..accountNumber = json['accountNumber'] as String;
+  return RegisterBank$Mutation$Bank()..id = json['id'] as String;
 }
 
 Map<String, dynamic> _$RegisterBank$Mutation$BankToJson(
         RegisterBank$Mutation$Bank instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'name': instance.name,
-      'code': instance.code,
-      'accountType': _$GraphQLBankAccountTypeEnumMap[instance.accountType],
-      'accountNumber': instance.accountNumber,
     };
 
 RegisterBank$Mutation _$RegisterBank$MutationFromJson(
@@ -556,24 +507,13 @@ Map<String, dynamic> _$RegisterBank$MutationToJson(
 
 RegisterSender$Mutation$Sender _$RegisterSender$Mutation$SenderFromJson(
     Map<String, dynamic> json) {
-  return RegisterSender$Mutation$Sender()
-    ..id = json['id'] as String
-    ..name = json['name'] as String
-    ..email = json['email'] as String
-    ..tel = json['tel'] as String
-    ..postalCode = json['postalCode'] as String
-    ..address = json['address'] as String;
+  return RegisterSender$Mutation$Sender()..id = json['id'] as String;
 }
 
 Map<String, dynamic> _$RegisterSender$Mutation$SenderToJson(
         RegisterSender$Mutation$Sender instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'name': instance.name,
-      'email': instance.email,
-      'tel': instance.tel,
-      'postalCode': instance.postalCode,
-      'address': instance.address,
     };
 
 RegisterSender$Mutation _$RegisterSender$MutationFromJson(
