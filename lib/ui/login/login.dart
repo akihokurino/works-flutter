@@ -94,11 +94,7 @@ class LoginPage extends HookWidget {
             fieldsCount: 6,
             onSubmit: (String pin) {
               action.setCode(pin);
-              action.signIn().then((me) {
-                if (me == null) {
-                  return;
-                }
-
+              action.signIn().then((_) {
                 Transition().root(RootPage.init());
               });
             },

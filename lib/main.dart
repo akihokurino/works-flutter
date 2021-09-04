@@ -6,6 +6,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:works_flutter/infra/graphql_client.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/login/login.dart';
 import 'package:works_flutter/ui/root/root.dart';
@@ -19,6 +20,9 @@ void main() async {
   await Firebase.initializeApp();
 
   final GlobalKey<NavigatorState> globalKey = new GlobalKey<NavigatorState>();
+
+  final gqClient = GQClient();
+  gqClient.setup("https://works-api.akiho.app/graphql");
 
   final transition = Transition();
   transition.setup(globalKey);

@@ -1,0 +1,181 @@
+query GetMe {
+    me {
+        ...MeFragment
+    }
+}
+
+query GetInvoiceList($supplierId: String!) {
+    invoiceList(supplierId: $supplierId) {
+        edges {
+            node {
+                ...InvoiceFragment
+            }
+        }
+    }
+}
+
+query GetInvoiceHistoryList {
+    invoiceHistoryList {
+        edges {
+            node {
+                ...InvoiceHistoryFragment
+            }
+        }
+    }
+}
+
+mutation Authenticate {
+    authenticate {
+        ...MeFragment
+    }
+}
+
+mutation CreateSupplier($name: String!,
+    $billingAmount: Int!,
+    $billingType: GraphQLBillingType!,
+    $endYm: String!,
+    $subject: String!,
+    $subjectTemplate: String!) {
+    createSupplier(input: {
+        name: $name,
+        billingAmount: $billingAmount,
+        billingType: $billingType,
+        endYm: $endYm,
+        subject: $subject,
+        subjectTemplate: $subjectTemplate}) {
+        ...SupplierFragment
+    }
+}
+
+mutation UpdateSupplier($id: String!,
+    $name: String!,
+    $billingAmount: Int!,
+    $endYm: String!,
+    $subject: String!,
+    $subjectTemplate: String!) {
+    updateSupplier(input: {
+        id: $id,
+        name: $name,
+        billingAmount: $billingAmount,
+        endYm: $endYm,
+        subject: $subject,
+        subjectTemplate: $subjectTemplate}) {
+        ...SupplierFragment
+    }
+}
+
+mutation RegisterBank($name: String!, $code: String!, $accountType: GraphQLBankAccountType!, $accountNumber: String!) {
+    registerBank(input: {
+        name: $name,
+        code: $code,
+        accountType: $accountType,
+        accountNumber: $accountNumber}) {
+        ...BankFragment
+    }
+}
+
+mutation RegisterSender($name: String!, $email: String!, $tel: String!, $postalCode: String!, $address: String!) {
+    registerSender(input: {
+        name: $name,
+        email: $email,
+        tel: $tel,
+        postalCode: $postalCode,
+        address: $address}) {
+        ...SenderFragment
+    }
+}
+
+mutation DeleteBank($id: String!) {
+    deleteBank(input: {id: $id})
+}
+
+mutation DeleteSender($id: String!) {
+    deleteSender(input: {id: $id})
+}
+
+mutation DeleteSupplier($id: String!) {
+    deleteSupplier(input: {id: $id})
+}
+
+mutation DownloadInvoicePDF($invoiceId: String!) {
+    downloadInvoicePdf(input: {invoiceId: $invoiceId})
+}
+
+mutation DeleteInvoice($id: String!) {
+    deleteInvoice(input: {id: $id})
+}
+
+mutation ConnectMisoca($code: String!) {
+    connectMisoca(input: {code: $code})
+}
+
+mutation RefreshMisoca {
+    refreshMisoca
+}
+
+fragment MeFragment on Me {
+    id
+    supplierList {
+        edges {
+            node {
+                ...SupplierFragment
+            }
+        }
+    }
+    sender {
+        ...SenderFragment
+    }
+    bank {
+        ...BankFragment
+    }
+}
+
+fragment SupplierFragment on Supplier {
+    id
+    name
+    billingAmountIncludeTax
+    billingAmountExcludeTax
+    billingType
+    endYm
+    subject
+    subjectTemplate
+}
+
+fragment InvoiceFragment on Invoice {
+    id
+    issueYmd
+    paymentDueOnYmd
+    invoiceNumber
+    paymentStatus
+    invoiceStatus
+    recipientName
+    subject
+    totalAmount
+    tax
+}
+
+fragment InvoiceHistoryFragment on InvoiceHistory {
+    invoice {
+        ...InvoiceFragment
+    }
+    supplier {
+        ...SupplierFragment
+    }
+}
+
+fragment BankFragment on Bank {
+    id
+    name
+    code
+    accountType
+    accountNumber
+}
+
+fragment SenderFragment on Sender {
+    id
+    name
+    email
+    tel
+    postalCode
+    address
+}

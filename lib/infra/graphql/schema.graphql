@@ -1,0 +1,182 @@
+type Sender implements Node {
+  id: ID!
+  name: String!
+  email: String!
+  tel: String!
+  postalCode: String!
+  address: String!
+}
+
+type Supplier implements Node {
+  id: ID!
+  name: String!
+  billingAmountIncludeTax: Int!
+  billingAmountExcludeTax: Int!
+  billingType: GraphQLBillingType!
+  endYm: String
+  subject: String!
+  subjectTemplate: String!
+  invoiceList: InvoiceConnection!
+}
+
+type Mutation {
+  debug: Boolean!
+  authenticate: Me!
+  createSupplier(input: CreateSupplierInput!): Supplier!
+  updateSupplier(input: UpdateSupplierInput!): Supplier!
+  deleteSupplier(input: DeleteSupplierInput!): Boolean!
+  connectMisoca(input: ConnectMisocaInput!): Boolean!
+  refreshMisoca: Boolean!
+  downloadInvoicePdf(input: DownloadInvoicePDFInput!): String!
+  deleteInvoice(input: DeleteInvoiceInput!): Boolean!
+  registerBank(input: RegisterBankInput!): Bank!
+  deleteBank(input: DeleteBankInput!): Boolean!
+  registerSender(input: RegisterSenderInput!): Sender!
+  deleteSender(input: DeleteSenderInput!): Boolean!
+}
+
+type InvoiceHistoryConnection {
+  edges: [InvoiceHistoryEdge!]!
+}
+
+input DeleteBankInput {
+  id: String!
+}
+
+input DeleteInvoiceInput {
+  id: String!
+}
+
+type Query {
+  me: Me!
+  supplierList: SupplierConnection!
+  invoiceList(supplierId: String!): InvoiceConnection!
+  invoiceHistoryList: InvoiceHistoryConnection!
+}
+
+type InvoiceHistory implements Node {
+  id: ID!
+  invoice: Invoice!
+  supplier: Supplier!
+}
+
+input CreateSupplierInput {
+  name: String!
+  billingAmount: Int!
+  billingType: GraphQLBillingType!
+  endYm: String!
+  subject: String!
+  subjectTemplate: String!
+}
+
+type Invoice implements Node {
+  id: ID!
+  issueYmd: String!
+  paymentDueOnYmd: String!
+  invoiceNumber: String!
+  paymentStatus: GraphQLPaymentStatus!
+  invoiceStatus: GraphQLInvoiceStatus!
+  recipientName: String!
+  subject: String!
+  totalAmount: Int!
+  tax: Int!
+}
+
+input RegisterSenderInput {
+  name: String!
+  email: String!
+  tel: String!
+  postalCode: String!
+  address: String!
+}
+
+enum GraphQLBillingType {
+  Monthly
+  OneTime
+}
+
+type InvoiceHistoryEdge {
+  node: InvoiceHistory!
+}
+
+type Me implements Node {
+  id: ID!
+  supplierList: SupplierConnection!
+  sender: Sender
+  bank: Bank
+}
+
+input DownloadInvoicePDFInput {
+  invoiceId: String!
+}
+
+enum GraphQLBankAccountType {
+  Savings
+  Checking
+}
+
+type SupplierEdge {
+  node: Supplier!
+}
+
+type InvoiceEdge {
+  node: Invoice!
+}
+
+type SupplierConnection {
+  edges: [SupplierEdge!]!
+}
+
+input ConnectMisocaInput {
+  code: String!
+}
+
+input DeleteSupplierInput {
+  id: String!
+}
+
+type InvoiceConnection {
+  edges: [InvoiceEdge!]!
+}
+
+interface Node {
+  id: ID!
+}
+
+enum GraphQLPaymentStatus {
+  UnPaid
+  Paid
+}
+
+type Bank implements Node {
+  id: ID!
+  name: String!
+  code: String!
+  accountType: GraphQLBankAccountType!
+  accountNumber: String!
+}
+
+input RegisterBankInput {
+  name: String!
+  code: String!
+  accountType: GraphQLBankAccountType!
+  accountNumber: String!
+}
+
+input DeleteSenderInput {
+  id: String!
+}
+
+enum GraphQLInvoiceStatus {
+  UnSubmitted
+  Submitted
+}
+
+input UpdateSupplierInput {
+  id: String!
+  name: String!
+  billingAmount: Int!
+  endYm: String!
+  subject: String!
+  subjectTemplate: String!
+}

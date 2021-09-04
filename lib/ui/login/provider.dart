@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:works_flutter/model/me.dart';
 import 'package:works_flutter/model/phone_number.dart';
 
 class _Provider extends StateNotifier<_State> {
@@ -33,18 +32,15 @@ class _Provider extends StateNotifier<_State> {
     );
   }
 
-  Future<Me?> signIn() async {
+  Future<void> signIn() async {
     if (state.code.isEmpty) {
       return null;
     }
 
     state = state.setShouldHud(true);
     final credential = PhoneAuthProvider.credential(verificationId: state.verificationId, smsCode: state.code);
-    final result = await FirebaseAuth.instance.signInWithCredential(credential);
+    await FirebaseAuth.instance.signInWithCredential(credential);
     state = state.setShouldHud(false);
-
-    final user = result.user;
-    return Me(id: user!.uid);
   }
 }
 
