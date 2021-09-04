@@ -9,13 +9,11 @@ class _Provider extends StateNotifier<_State> {
   _Provider() : super(_State.init());
 
   Future<void> getHistories(bool isRefresh) async {
-    final gqClient = GQClient();
-
     if (!isRefresh) {
       state = state.setShouldHud(true);
     }
 
-    final resp = await gqClient.query(QueryOptions(document: GetInvoiceHistoryListQuery().document));
+    final resp = await GQClient().query(QueryOptions(document: GetInvoiceHistoryListQuery().document));
     final decoded = GetInvoiceHistoryList$Query.fromJson(resp);
     state = state.setHistories(decoded.invoiceHistoryList.edges.map((v) => v.node.model()).toList());
 

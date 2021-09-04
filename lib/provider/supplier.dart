@@ -9,13 +9,11 @@ class _Provider extends StateNotifier<_State> {
   _Provider() : super(_State.init());
 
   Future<void> getSuppliers(bool isRefresh) async {
-    final gqClient = GQClient();
-
     if (!isRefresh) {
       state = state.setShouldHud(true);
     }
 
-    final resp = await gqClient.query(QueryOptions(document: GetMeQuery().document));
+    final resp = await GQClient().query(QueryOptions(document: GetMeQuery().document));
     final decoded = GetMe$Query.fromJson(resp);
     state = state.setSuppliers(decoded.me.model().suppliers);
 
