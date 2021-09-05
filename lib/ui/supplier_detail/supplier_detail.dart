@@ -9,7 +9,9 @@ import 'package:works_flutter/provider/invoice.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/component/appbar.dart';
 import 'package:works_flutter/ui/font.dart';
+import 'package:works_flutter/ui/invoice_detail/invoice_detail.dart';
 import 'package:works_flutter/ui/supplier_detail/invoice_item.dart';
+import 'package:works_flutter/ui/transition.dart';
 
 class SupplierDetailPage extends HookWidget {
   static Widget init(Supplier supplier) {
@@ -101,7 +103,11 @@ class SupplierDetailPage extends HookWidget {
 
     list.addAll(invoiceState.invoices.map((v) => Container(
           margin: EdgeInsets.only(bottom: 15),
-          child: InvoiceItem(invoice: v, onClick: () {}),
+          child: InvoiceItem(
+              invoice: v,
+              onClick: () {
+                Transition().pushWithTab(context, InvoiceDetailPage(invoice: v));
+              }),
         )));
 
     final content = ModalProgressHUD(

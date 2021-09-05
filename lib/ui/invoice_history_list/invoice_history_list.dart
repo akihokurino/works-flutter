@@ -6,8 +6,10 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:works_flutter/provider/invoice_history.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/component/appbar.dart';
+import 'package:works_flutter/ui/invoice_detail/invoice_detail.dart';
 import 'package:works_flutter/ui/invoice_history_list/invoice_history_normal_item.dart';
 import 'package:works_flutter/ui/invoice_history_list/invoice_history_simple_item.dart';
+import 'package:works_flutter/ui/transition.dart';
 
 const _normalTab = "通常";
 const _simpleTab = "簡易";
@@ -60,7 +62,11 @@ class InvoiceHistoryListPage extends HookWidget {
                   children: invoiceHistoryState.histories
                       .map((v) => Container(
                             margin: EdgeInsets.only(bottom: 15),
-                            child: InvoiceHistoryNormalItem(history: v, onClick: () {}),
+                            child: InvoiceHistoryNormalItem(
+                                history: v,
+                                onClick: () {
+                                  Transition().pushWithTab(context, InvoiceDetailPage(invoice: v.invoice));
+                                }),
                           ))
                       .toList(),
                 ),
@@ -85,7 +91,13 @@ class InvoiceHistoryListPage extends HookWidget {
                 child: ListView(
                   physics: AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  children: invoiceHistoryState.histories.map((v) => InvoiceHistorySimpleItem(history: v, onClick: () {})).toList(),
+                  children: invoiceHistoryState.histories
+                      .map((v) => InvoiceHistorySimpleItem(
+                          history: v,
+                          onClick: () {
+                            Transition().pushWithTab(context, InvoiceDetailPage(invoice: v.invoice));
+                          }))
+                      .toList(),
                 ),
               )),
           onNotification: (ScrollNotification notification) {

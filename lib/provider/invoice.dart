@@ -1,3 +1,4 @@
+import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:graphql/client.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:works_flutter/infra/graphql/api.dart';
@@ -23,24 +24,42 @@ class _Provider extends StateNotifier<_State> {
       state = state.setShouldHud(false);
     }
   }
+
+  Future<void> downloadPDF(String invoiceId) async {
+    state = state.setShouldHud(true);
+    state = state.setPDFDocument(null);
+
+    final payload = DownloadInvoicePDFMutation(variables: DownloadInvoicePDFArguments(invoiceId: invoiceId));
+    final resp = await GQClient().mutation(MutationOptions(document: payload.document, variables: payload.variables.toJson()));
+    final decoded = DownloadInvoicePDF$Mutation.fromJson(resp);
+    final doc = await PDFDocument.fromURL(decoded.downloadInvoicePdf);
+    state = state.setPDFDocument(doc);
+
+    state = state.setShouldHud(false);
+  }
 }
 
 class _State {
   final bool shouldShowHud;
   final List<Invoice> invoices;
+  final PDFDocument? pdfDocument;
 
-  _State({required this.shouldShowHud, required this.invoices});
+  _State({required this.shouldShowHud, required this.invoices, required this.pdfDocument});
 
   static _State init() {
-    return _State(shouldShowHud: false, invoices: []);
+    return _State(shouldShowHud: false, invoices: [], pdfDocument: null);
   }
 
   _State setShouldHud(bool should) {
-    return _State(shouldShowHud: should, invoices: invoices);
+    return _State(shouldShowHud: should, invoices: invoices, pdfDocument: pdfDocument);
   }
 
   _State setInvoices(List<Invoice> invoices) {
-    return _State(shouldShowHud: shouldShowHud, invoices: invoices);
+    return _State(shouldShowHud: shouldShowHud, invoices: invoices, pdfDocument: pdfDocument);
+  }
+
+  _State setPDFDocument(PDFDocument? doc) {
+    return _State(shouldShowHud: shouldShowHud, invoices: invoices, pdfDocument: doc);
   }
 }
 
