@@ -13,7 +13,8 @@ class _Provider extends StateNotifier<_State> {
       state = state.setShouldHud(true);
     }
 
-    final resp = await GQClient().query(QueryOptions(document: GetMeQuery().document));
+    final payload = GetMeQuery();
+    final resp = await GQClient().query(QueryOptions(document: payload.document));
     final decoded = GetMe$Query.fromJson(resp);
     state = state.setSuppliers(decoded.me.model().suppliers);
 

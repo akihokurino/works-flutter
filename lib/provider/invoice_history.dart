@@ -13,7 +13,8 @@ class _Provider extends StateNotifier<_State> {
       state = state.setShouldHud(true);
     }
 
-    final resp = await GQClient().query(QueryOptions(document: GetInvoiceHistoryListQuery().document));
+    final payload = GetInvoiceHistoryListQuery();
+    final resp = await GQClient().query(QueryOptions(document: payload.document));
     final decoded = GetInvoiceHistoryList$Query.fromJson(resp);
     state = state.setHistories(decoded.invoiceHistoryList.edges.map((v) => v.node.model()).toList());
 

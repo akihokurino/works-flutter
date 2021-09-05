@@ -12,7 +12,8 @@ class _Provider extends StateNotifier<_State> {
 
   Future<void> getMe() async {
     state = state.setShouldHud(true);
-    final resp = await GQClient().query(QueryOptions(document: GetMeQuery().document));
+    final payload = GetMeQuery();
+    final resp = await GQClient().query(QueryOptions(document: payload.document));
     final decoded = GetMe$Query.fromJson(resp);
     state = state.setShouldHud(false);
     state = state.setMe(decoded.me.model());

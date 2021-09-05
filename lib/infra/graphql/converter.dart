@@ -45,6 +45,23 @@ extension GetMe on GetMe$Query$Me {
   }
 }
 
+extension GetInvoiceList on GetInvoiceList$Query$InvoiceConnection$InvoiceEdge$Invoice {
+  Invoice model() {
+    return Invoice(
+      id: id,
+      issueYMD: issueYmd,
+      paymentDueOnYMD: paymentDueOnYmd,
+      invoiceNumber: invoiceNumber,
+      paymentStatus: paymentStatus,
+      invoiceStatus: invoiceStatus,
+      recipientName: recipientName,
+      subject: subject,
+      totalAmount: totalAmount,
+      tax: tax,
+    );
+  }
+}
+
 extension GetInvoiceHistoryList on GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge$InvoiceHistory {
   InvoiceHistory model() {
     return InvoiceHistory(

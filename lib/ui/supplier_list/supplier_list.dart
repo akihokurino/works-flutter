@@ -7,7 +7,9 @@ import 'package:works_flutter/provider/supplier.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/component/appbar.dart';
 import 'package:works_flutter/ui/font.dart';
+import 'package:works_flutter/ui/supplier_detail/supplier_detail.dart';
 import 'package:works_flutter/ui/supplier_list/supplier_item.dart';
+import 'package:works_flutter/ui/transition.dart';
 
 class SupplierListPage extends HookWidget {
   static Widget init(GlobalKey<NavigatorState> globalKey) {
@@ -60,7 +62,11 @@ class SupplierListPage extends HookWidget {
 
     list.addAll(supplierState.suppliers.map((v) => Container(
           margin: EdgeInsets.only(bottom: 15),
-          child: SupplierItem(supplier: v, onClick: () {}),
+          child: SupplierItem(
+              supplier: v,
+              onClick: () {
+                Transition().pushWithTab(context, SupplierDetailPage(supplier: v));
+              }),
         )));
 
     final content = ModalProgressHUD(
