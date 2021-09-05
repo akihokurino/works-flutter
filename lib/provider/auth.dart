@@ -46,8 +46,13 @@ class _Provider extends StateNotifier<_State> {
     }
 
     state = state.setShouldHud(true);
+
     final credential = PhoneAuthProvider.credential(verificationId: state.verificationId, smsCode: code);
     await FirebaseAuth.instance.signInWithCredential(credential);
+
+    final payload = AuthenticateMutation();
+    await GQClient().mutation(MutationOptions(document: payload.document));
+
     state = state.setShouldHud(false);
 
     return true;
@@ -55,7 +60,9 @@ class _Provider extends StateNotifier<_State> {
 
   Future<bool> signOut() async {
     state = state.setShouldHud(true);
+
     await FirebaseAuth.instance.signOut();
+
     state = state.setShouldHud(false);
     state = state.setMe(null);
 

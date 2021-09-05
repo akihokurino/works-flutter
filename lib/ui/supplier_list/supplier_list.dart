@@ -30,6 +30,8 @@ class SupplierListPage extends HookWidget {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
         supplierAction.getSuppliers(false);
       });
+
+      return () {};
     }, const []);
 
     final totalAmount =

@@ -25,7 +25,9 @@ class SettingPage extends HookWidget {
     final authState = useProvider(authProvider);
     final authAction = useContext().read(authProvider.notifier);
 
-    useEffect(() {}, const []);
+    useEffect(() {
+      return () {};
+    }, const []);
 
     final content = ModalProgressHUD(
         progressIndicator: CircularProgressIndicator(

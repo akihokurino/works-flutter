@@ -30,6 +30,8 @@ class SupplierDetailPage extends HookWidget {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
         invoiceAction.getInvoices(supplier.id, false);
       });
+
+      return () {};
     }, const []);
 
     List<Widget> list = [];

@@ -40,6 +40,8 @@ class InvoiceHistoryListPage extends HookWidget {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
         invoiceHistoryAction.getHistories(false);
       });
+
+      return () {};
     }, const []);
 
     final normalList = () {

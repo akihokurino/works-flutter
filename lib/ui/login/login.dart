@@ -35,7 +35,9 @@ class LoginPage extends HookWidget {
     final shouldShowPincodeInput = useState(false);
     final phoneNumber = useState("");
 
-    useEffect(() {}, const []);
+    useEffect(() {
+      return () {};
+    }, const []);
 
     final phoneNumberInput = () {
       return Container(

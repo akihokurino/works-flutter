@@ -11,6 +11,7 @@ class _Provider extends StateNotifier<_State> {
   Future<void> getInvoices(String supplierId, bool isRefresh) async {
     if (!isRefresh) {
       state = state.setShouldHud(true);
+      state = state.setInvoices([]);
     }
 
     final payload = GetInvoiceListQuery(variables: GetInvoiceListArguments(supplierId: supplierId));

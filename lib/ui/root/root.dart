@@ -34,6 +34,8 @@ class RootPage extends HookWidget {
       });
 
       _tabController = PersistentTabController(initialIndex: 0);
+
+      return () {};
     }, const []);
 
     _tabController.index = tabIndex.value;
