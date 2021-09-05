@@ -20,7 +20,7 @@ class SupplierItem extends StatelessWidget {
       ),
       child: Material(
         color: supplier.billingType == GraphQLBillingType.monthly
-            ? ColorPalette.primary.withOpacity(0.1)
+            ? ColorPalette.primaryBackground
             : ColorPalette.okGreen.withOpacity(0.1),
         child: InkWell(
           onTap: () {

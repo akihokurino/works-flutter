@@ -78,7 +78,7 @@ class SupplierListPage extends HookWidget {
                 child: Scrollbar(
                   child: ListView(
                     physics: AlwaysScrollableScrollPhysics(),
-                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
                     children: list,
                   ),
                 )),

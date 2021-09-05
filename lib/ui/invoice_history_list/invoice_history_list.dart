@@ -6,6 +6,8 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:works_flutter/provider/invoice_history.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/component/appbar.dart';
+import 'package:works_flutter/ui/invoice_history_list/invoice_history_normal_item.dart';
+import 'package:works_flutter/ui/invoice_history_list/invoice_history_simple_item.dart';
 
 const _normalTab = "通常";
 const _simpleTab = "簡易";
@@ -26,6 +28,8 @@ class InvoiceHistoryListPage extends HookWidget {
       text: _simpleTab,
     ),
   ];
+  final _refreshNormalIndicatorKey = GlobalKey<RefreshIndicatorState>();
+  final _refreshSimpleIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +42,57 @@ class InvoiceHistoryListPage extends HookWidget {
       });
     }, const []);
 
+    final normalList = () {
+      return Container(
+        child: NotificationListener(
+          child: RefreshIndicator(
+              key: _refreshNormalIndicatorKey,
+              color: ColorPalette.primary,
+              onRefresh: () async {
+                await invoiceHistoryAction.getHistories(true);
+              },
+              child: Scrollbar(
+                child: ListView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+                  children: invoiceHistoryState.histories
+                      .map((v) => Container(
+                            margin: EdgeInsets.only(bottom: 15),
+                            child: InvoiceHistoryNormalItem(history: v, onClick: () {}),
+                          ))
+                      .toList(),
+                ),
+              )),
+          onNotification: (ScrollNotification notification) {
+            return true;
+          },
+        ),
+      );
+    };
+
+    final simpleList = () {
+      return Container(
+        child: NotificationListener(
+          child: RefreshIndicator(
+              key: _refreshSimpleIndicatorKey,
+              color: ColorPalette.primary,
+              onRefresh: () async {
+                await invoiceHistoryAction.getHistories(true);
+              },
+              child: Scrollbar(
+                child: ListView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  children: invoiceHistoryState.histories.map((v) => InvoiceHistorySimpleItem(history: v, onClick: () {})).toList(),
+                ),
+              )),
+          onNotification: (ScrollNotification notification) {
+            return true;
+          },
+        ),
+      );
+    };
+
     final content = ModalProgressHUD(
         progressIndicator: CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(ColorPalette.primary),
@@ -46,9 +101,9 @@ class InvoiceHistoryListPage extends HookWidget {
             children: _tabs.map((tab) {
           switch (tab.text) {
             case _normalTab:
-              return Container();
+              return normalList();
             case _simpleTab:
-              return Container();
+              return simpleList();
             default:
               return Container();
           }
