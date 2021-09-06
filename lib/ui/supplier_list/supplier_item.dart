@@ -19,9 +19,7 @@ class SupplierItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
       ),
       child: Material(
-        color: supplier.billingType == GraphQLBillingType.monthly
-            ? ColorPalette.primaryBackground
-            : ColorPalette.okGreen.withOpacity(0.1),
+        color: supplier.billingType == GraphQLBillingType.monthly ? ColorPalette.primaryBackground : ColorPalette.green.withOpacity(0.1),
         child: InkWell(
           onTap: () {
             onClick();

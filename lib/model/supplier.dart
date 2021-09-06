@@ -20,17 +20,6 @@ class Supplier {
       required this.subject,
       required this.subjectTemplate});
 
-  String billingTypeText() {
-    switch (billingType) {
-      case GraphQLBillingType.monthly:
-        return "月々";
-      case GraphQLBillingType.oneTime:
-        return "";
-      default:
-        return "";
-    }
-  }
-
   String endYMString() {
     if (endYm == null) {
       return "";
@@ -40,5 +29,18 @@ class Supplier {
     final month = endYm!.split("-")[1];
 
     return "$year年$month月";
+  }
+}
+
+extension GraphQLBillingTypeText on GraphQLBillingType {
+  String text() {
+    switch (this) {
+      case GraphQLBillingType.monthly:
+        return "月々";
+      case GraphQLBillingType.oneTime:
+        return "納品時";
+      default:
+        return "";
+    }
   }
 }

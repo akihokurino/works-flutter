@@ -8,7 +8,7 @@ import 'package:works_flutter/model/invoice_history.dart';
 class _Provider extends StateNotifier<_State> {
   _Provider() : super(_State.init());
 
-  Future<void> getHistories(bool isRefresh) async {
+  Future<void> getList(bool isRefresh) async {
     if (!isRefresh) {
       state = state.setShouldHud(true);
     }

@@ -7,6 +7,7 @@ import 'package:works_flutter/provider/auth.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/component/appbar.dart';
 import 'package:works_flutter/ui/component/button.dart';
+import 'package:works_flutter/ui/component/dialog.dart';
 import 'package:works_flutter/ui/login/login.dart';
 import 'package:works_flutter/ui/setting/menu_item.dart';
 import 'package:works_flutter/ui/transition.dart';
@@ -49,7 +50,11 @@ class SettingPage extends HookWidget {
                     backgroundColor: ColorPalette.alertRed,
                     textColor: Colors.white,
                     onClick: () {
-                      authAction.signOut().then((_) {
+                      authAction.signOut().then((err) {
+                        if (err != null) {
+                          AppDialog().showErrorAlert(context, err);
+                          return;
+                        }
                         Transition().root(LoginPage.init());
                       });
                     },

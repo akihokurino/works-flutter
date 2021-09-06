@@ -30,7 +30,7 @@ class SupplierDetailPage extends HookWidget {
 
     useEffect(() {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
-        invoiceAction.getInvoices(supplier.id, false);
+        invoiceAction.getList(supplier.id, false);
       });
 
       return () {};
@@ -65,9 +65,9 @@ class SupplierDetailPage extends HookWidget {
                   width: 150,
                 ),
                 Container(
-                    child: Text(supplier.billingTypeText(),
+                    child: Text(supplier.billingType.text(),
                         style: TextStyle(
-                          color: supplier.billingType == GraphQLBillingType.monthly ? ColorPalette.primary : ColorPalette.okGreen,
+                          color: supplier.billingType == GraphQLBillingType.monthly ? ColorPalette.primary : ColorPalette.green,
                           fontWeight: Font.boldWeight,
                           fontSize: 18,
                         )))
@@ -120,7 +120,7 @@ class SupplierDetailPage extends HookWidget {
                 key: _refreshIndicatorKey,
                 color: ColorPalette.primary,
                 onRefresh: () async {
-                  await invoiceAction.getInvoices(supplier.id, true);
+                  await invoiceAction.getList(supplier.id, true);
                 },
                 child: Scrollbar(
                   child: ListView(

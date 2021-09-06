@@ -435,13 +435,30 @@ Map<String, dynamic> _$Authenticate$MutationToJson(
 
 CreateSupplier$Mutation$Supplier _$CreateSupplier$Mutation$SupplierFromJson(
     Map<String, dynamic> json) {
-  return CreateSupplier$Mutation$Supplier()..id = json['id'] as String;
+  return CreateSupplier$Mutation$Supplier()
+    ..id = json['id'] as String
+    ..name = json['name'] as String
+    ..billingAmountIncludeTax = json['billingAmountIncludeTax'] as int
+    ..billingAmountExcludeTax = json['billingAmountExcludeTax'] as int
+    ..billingType = _$enumDecode(
+        _$GraphQLBillingTypeEnumMap, json['billingType'],
+        unknownValue: GraphQLBillingType.artemisUnknown)
+    ..endYm = json['endYm'] as String?
+    ..subject = json['subject'] as String
+    ..subjectTemplate = json['subjectTemplate'] as String;
 }
 
 Map<String, dynamic> _$CreateSupplier$Mutation$SupplierToJson(
         CreateSupplier$Mutation$Supplier instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'name': instance.name,
+      'billingAmountIncludeTax': instance.billingAmountIncludeTax,
+      'billingAmountExcludeTax': instance.billingAmountExcludeTax,
+      'billingType': _$GraphQLBillingTypeEnumMap[instance.billingType],
+      'endYm': instance.endYm,
+      'subject': instance.subject,
+      'subjectTemplate': instance.subjectTemplate,
     };
 
 CreateSupplier$Mutation _$CreateSupplier$MutationFromJson(

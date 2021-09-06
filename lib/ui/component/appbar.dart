@@ -85,6 +85,7 @@ class AppBarFactory {
         child: IconButton(
           iconSize: 24,
           icon: Icon(Icons.close),
+          color: ColorPalette.primary,
           onPressed: () {
             if (onBack != null) {
               onBack!();
@@ -99,6 +100,7 @@ class AppBarFactory {
         child: IconButton(
           iconSize: 24,
           icon: Icon(Icons.arrow_back_ios),
+          color: ColorPalette.primary,
           onPressed: () {
             if (onBack != null) {
               onBack!();

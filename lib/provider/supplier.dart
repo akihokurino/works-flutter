@@ -3,12 +3,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:works_flutter/infra/graphql/api.dart';
 import 'package:works_flutter/infra/graphql/converter.dart';
 import 'package:works_flutter/infra/graphql_client.dart';
+import 'package:works_flutter/model/errors.dart';
 import 'package:works_flutter/model/supplier.dart';
 
 class _Provider extends StateNotifier<_State> {
   _Provider() : super(_State.init());
 
-  Future<void> getSuppliers(bool isRefresh) async {
+  Future<void> getList(bool isRefresh) async {
     if (!isRefresh) {
       state = state.setShouldHud(true);
     }
@@ -21,6 +22,35 @@ class _Provider extends StateNotifier<_State> {
     if (!isRefresh) {
       state = state.setShouldHud(false);
     }
+  }
+
+  Future<AppError?> create(String name, String subject, String subjectTemplate, int billingAmount, GraphQLBillingType billingType,
+      int endYear, int endMonth) async {
+    if (name.isEmpty || subject.isEmpty || billingAmount == 0) {
+      return AppError("不正な入力です");
+    }
+
+    String endYm = "";
+    if (billingType == GraphQLBillingType.oneTime) {
+      endYm = "$endYear-$endMonth";
+    }
+
+    state = state.setShouldHud(true);
+
+    final payload = CreateSupplierMutation(
+        variables: CreateSupplierArguments(
+      name: name,
+      subject: subject,
+      subjectTemplate: subjectTemplate,
+      billingAmount: billingAmount,
+      billingType: billingType,
+      endYm: endYm,
+    ));
+    final resp = await GQClient().mutation(MutationOptions(document: payload.document, variables: payload.variables.toJson()));
+    final decoded = CreateSupplier$Mutation.fromJson(resp);
+    state = state.appendSupplier(decoded.createSupplier.model());
+
+    state = state.setShouldHud(false);
   }
 }
 
@@ -40,6 +70,12 @@ class _State {
 
   _State setSuppliers(List<Supplier> items) {
     return _State(shouldShowHud: shouldShowHud, suppliers: items);
+  }
+
+  _State appendSupplier(Supplier item) {
+    List<Supplier> current = suppliers;
+    current.insert(0, item);
+    return _State(shouldShowHud: shouldShowHud, suppliers: current);
   }
 }
 

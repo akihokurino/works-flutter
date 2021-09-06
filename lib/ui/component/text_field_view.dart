@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:works_flutter/ui/color.dart';
+import 'package:works_flutter/ui/font.dart';
 
 class TextFieldView extends StatefulWidget {
   final bool isSecure;
@@ -8,6 +9,7 @@ class TextFieldView extends StatefulWidget {
   final VoidCallback? onHintTap;
   final ValueChanged<String>? onChange;
   final ValueChanged<String>? onSubmit;
+  final String label;
   final String placeholder;
   final String value;
   final TextInputType inputType;
@@ -19,6 +21,7 @@ class TextFieldView extends StatefulWidget {
       this.onHintTap,
       this.onChange,
       this.onSubmit,
+      this.label = "",
       this.placeholder = "",
       this.value = "",
       this.inputType = TextInputType.text,
@@ -65,32 +68,48 @@ class _TextFieldViewState extends State<TextFieldView> {
     return Container(
       color: ColorPalette.itemBackground,
       width: double.infinity,
-      height: 54,
-      child: Stack(
+      height: widget.label.isNotEmpty ? 80 : 54,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextField(
-            inputFormatters: widget.formaters,
-            focusNode: _focusNode,
-            onSubmitted: widget.onSubmit,
-            controller: _controller,
-            obscureText: widget.isSecure && _isOnSecureIcon,
-            keyboardType: widget.inputType,
-            decoration: InputDecoration(
-                hintText: widget.placeholder,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: ColorPalette.primary,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: ColorPalette.primary,
-                  ),
-                )),
-          ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: _buildRightIcon(),
+          widget.label.isNotEmpty
+              ? Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  child: Text(widget.label,
+                      style: TextStyle(
+                        color: ColorPalette.textLight,
+                        fontWeight: Font.normalWeight,
+                        fontSize: 14,
+                      )),
+                )
+              : Container(),
+          Stack(
+            children: [
+              TextField(
+                inputFormatters: widget.formaters,
+                focusNode: _focusNode,
+                onSubmitted: widget.onSubmit,
+                controller: _controller,
+                obscureText: widget.isSecure && _isOnSecureIcon,
+                keyboardType: widget.inputType,
+                decoration: InputDecoration(
+                    hintText: widget.placeholder,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: ColorPalette.primary,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: ColorPalette.primary,
+                      ),
+                    )),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: _buildRightIcon(),
+              )
+            ],
           )
         ],
       ),

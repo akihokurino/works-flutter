@@ -9,6 +9,7 @@ import 'package:works_flutter/provider/auth.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/component/appbar.dart';
 import 'package:works_flutter/ui/component/button.dart';
+import 'package:works_flutter/ui/component/dialog.dart';
 import 'package:works_flutter/ui/component/text_field_view.dart';
 import 'package:works_flutter/ui/root/root.dart';
 import 'package:works_flutter/ui/transition.dart';
@@ -60,7 +61,13 @@ class LoginPage extends HookWidget {
                     backgroundColor: ColorPalette.primary,
                     textColor: Colors.white,
                     onClick: () {
-                      authAction.sendVerification(PhoneNumber(val: phoneNumber.value)).then((v) => shouldShowPincodeInput.value = v);
+                      authAction.sendVerification(PhoneNumber(val: phoneNumber.value)).then((err) {
+                        if (err != null) {
+                          AppDialog().showErrorAlert(context, err);
+                          return;
+                        }
+                        shouldShowPincodeInput.value = true;
+                      });
                     }),
               ),
             ],
@@ -81,7 +88,11 @@ class LoginPage extends HookWidget {
               pinAnimationType: PinAnimationType.none,
               fieldsCount: 6,
               onSubmit: (String pin) {
-                authAction.signIn(pin).then((_) {
+                authAction.signIn(pin).then((err) {
+                  if (err != null) {
+                    AppDialog().showErrorAlert(context, err);
+                    return;
+                  }
                   Transition().root(RootPage.init());
                 });
               },

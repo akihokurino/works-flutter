@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:works_flutter/infra/graphql/api.dart';
 import 'package:works_flutter/infra/graphql/converter.dart';
 import 'package:works_flutter/infra/graphql_client.dart';
+import 'package:works_flutter/model/errors.dart';
 import 'package:works_flutter/model/me.dart';
 import 'package:works_flutter/model/phone_number.dart';
 
@@ -19,9 +20,9 @@ class _Provider extends StateNotifier<_State> {
     state = state.setMe(decoded.me.model());
   }
 
-  Future<bool> sendVerification(PhoneNumber phoneNumber) async {
+  Future<AppError?> sendVerification(PhoneNumber phoneNumber) async {
     if (phoneNumber.val.isEmpty) {
-      return false;
+      return AppError("電話番号を入力してください");
     }
 
     await FirebaseAuth.instance.verifyPhoneNumber(
@@ -36,13 +37,11 @@ class _Provider extends StateNotifier<_State> {
       verificationCompleted: (PhoneAuthCredential phoneAuthCredential) {},
       verificationFailed: (FirebaseAuthException error) {},
     );
-
-    return true;
   }
 
-  Future<bool> signIn(String code) async {
+  Future<AppError?> signIn(String code) async {
     if (code.isEmpty) {
-      return false;
+      return AppError("コードを入力してください");
     }
 
     state = state.setShouldHud(true);
@@ -54,19 +53,15 @@ class _Provider extends StateNotifier<_State> {
     await GQClient().mutation(MutationOptions(document: payload.document));
 
     state = state.setShouldHud(false);
-
-    return true;
   }
 
-  Future<bool> signOut() async {
+  Future<AppError?> signOut() async {
     state = state.setShouldHud(true);
 
     await FirebaseAuth.instance.signOut();
 
     state = state.setShouldHud(false);
     state = state.setMe(null);
-
-    return true;
   }
 }
 

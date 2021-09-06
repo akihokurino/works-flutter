@@ -40,7 +40,7 @@ class InvoiceHistoryListPage extends HookWidget {
 
     useEffect(() {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
-        invoiceHistoryAction.getHistories(false);
+        invoiceHistoryAction.getList(false);
       });
 
       return () {};
@@ -53,7 +53,7 @@ class InvoiceHistoryListPage extends HookWidget {
               key: _refreshNormalIndicatorKey,
               color: ColorPalette.primary,
               onRefresh: () async {
-                await invoiceHistoryAction.getHistories(true);
+                await invoiceHistoryAction.getList(true);
               },
               child: Scrollbar(
                 child: ListView(
@@ -85,7 +85,7 @@ class InvoiceHistoryListPage extends HookWidget {
               key: _refreshSimpleIndicatorKey,
               color: ColorPalette.primary,
               onRefresh: () async {
-                await invoiceHistoryAction.getHistories(true);
+                await invoiceHistoryAction.getList(true);
               },
               child: Scrollbar(
                 child: ListView(

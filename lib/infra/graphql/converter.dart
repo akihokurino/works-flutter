@@ -45,6 +45,21 @@ extension GetMe on GetMe$Query$Me {
   }
 }
 
+extension CreateSupplier on CreateSupplier$Mutation$Supplier {
+  Supplier model() {
+    return Supplier(
+      id: id,
+      name: name,
+      billingAmountIncludeTax: billingAmountIncludeTax,
+      billingAmountExcludeTax: billingAmountExcludeTax,
+      billingType: billingType,
+      endYm: endYm,
+      subject: subject,
+      subjectTemplate: subjectTemplate,
+    );
+  }
+}
+
 extension GetInvoiceList on GetInvoiceList$Query$InvoiceConnection$InvoiceEdge$Invoice {
   Invoice model() {
     return Invoice(

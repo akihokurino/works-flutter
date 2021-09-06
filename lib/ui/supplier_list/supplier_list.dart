@@ -7,6 +7,7 @@ import 'package:works_flutter/provider/supplier.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/component/appbar.dart';
 import 'package:works_flutter/ui/font.dart';
+import 'package:works_flutter/ui/supplier_create/supplier_create.dart';
 import 'package:works_flutter/ui/supplier_detail/supplier_detail.dart';
 import 'package:works_flutter/ui/supplier_list/supplier_item.dart';
 import 'package:works_flutter/ui/transition.dart';
@@ -28,7 +29,7 @@ class SupplierListPage extends HookWidget {
 
     useEffect(() {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
-        supplierAction.getSuppliers(false);
+        supplierAction.getList(false);
       });
 
       return () {};
@@ -81,7 +82,7 @@ class SupplierListPage extends HookWidget {
                 key: _refreshIndicatorKey,
                 color: ColorPalette.primary,
                 onRefresh: () async {
-                  await supplierAction.getSuppliers(true);
+                  await supplierAction.getList(true);
                 },
                 child: Scrollbar(
                   child: ListView(
@@ -100,7 +101,15 @@ class SupplierListPage extends HookWidget {
     return Scaffold(
       key: globalKey,
       backgroundColor: Colors.white,
-      appBar: AppBarFactory(title: "取引先").build(context),
+      appBar: AppBarFactory(title: "取引先", actions: [
+        Container(
+            child: IconButton(
+                icon: Icon(Icons.add),
+                color: ColorPalette.primary,
+                onPressed: () {
+                  Transition().pushWithTab(context, SupplierCreatePage.init());
+                }))
+      ]).build(context),
       body: content,
     );
   }

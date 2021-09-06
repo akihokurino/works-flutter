@@ -9,7 +9,7 @@ import 'package:works_flutter/model/invoice.dart';
 class _Provider extends StateNotifier<_State> {
   _Provider() : super(_State.init());
 
-  Future<void> getInvoices(String supplierId, bool isRefresh) async {
+  Future<void> getList(String supplierId, bool isRefresh) async {
     if (!isRefresh) {
       state = state.setShouldHud(true);
       state = state.setInvoices([]);

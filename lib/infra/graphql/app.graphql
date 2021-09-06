@@ -103,6 +103,13 @@ mutation CreateSupplier($name: String!,
         subject: $subject,
         subjectTemplate: $subjectTemplate}) {
         id
+        name
+        billingAmountIncludeTax
+        billingAmountExcludeTax
+        billingType
+        endYm
+        subject
+        subjectTemplate
     }
 }
 
