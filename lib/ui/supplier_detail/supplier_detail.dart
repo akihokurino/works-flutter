@@ -6,27 +6,32 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:works_flutter/infra/graphql/api.dart';
 import 'package:works_flutter/model/supplier.dart';
 import 'package:works_flutter/provider/invoice.dart';
+import 'package:works_flutter/provider/supplier.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/component/appbar.dart';
 import 'package:works_flutter/ui/font.dart';
 import 'package:works_flutter/ui/invoice_detail/invoice_detail.dart';
 import 'package:works_flutter/ui/supplier_detail/invoice_item.dart';
+import 'package:works_flutter/ui/supplier_edit/supplier_edit.dart';
 import 'package:works_flutter/ui/transition.dart';
 
 class SupplierDetailPage extends HookWidget {
-  static Widget init(Supplier supplier) {
-    return SupplierDetailPage(supplier: supplier);
+  static Widget init(String supplierId) {
+    return SupplierDetailPage(supplierId: supplierId);
   }
 
-  SupplierDetailPage({required this.supplier});
+  SupplierDetailPage({required this.supplierId});
 
-  final Supplier supplier;
+  final String supplierId;
   final _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   @override
   Widget build(BuildContext context) {
+    final supplierState = useProvider(supplierProvider);
     final invoiceState = useProvider(invoiceProvider);
     final invoiceAction = useContext().read(invoiceProvider.notifier);
+
+    final supplier = supplierState.suppliers.firstWhere((v) => v.id == supplierId)!;
 
     useEffect(() {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -138,7 +143,43 @@ class SupplierDetailPage extends HookWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBarFactory(title: supplier.name).build(context),
+      appBar: AppBarFactory(title: supplier.name, actions: [
+        Container(
+            child: IconButton(
+                icon: Icon(Icons.settings),
+                color: ColorPalette.primary,
+                onPressed: () {
+                  showCupertinoModalPopup(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CupertinoActionSheet(
+                        actions: [
+                          CupertinoActionSheetAction(
+                            child: Text('編集'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              Transition().pushWithTab(context, SupplierEditPage.init(supplier));
+                            },
+                          ),
+                          CupertinoActionSheetAction(
+                            child: Text(
+                              '削除',
+                              style: TextStyle(color: ColorPalette.alertRed),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                        cancelButton: CupertinoButton(
+                          child: Text('キャンセル'),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                      );
+                    },
+                  );
+                }))
+      ]).build(context),
       body: content,
     );
   }

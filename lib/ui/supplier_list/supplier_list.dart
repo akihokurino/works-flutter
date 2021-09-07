@@ -68,7 +68,7 @@ class SupplierListPage extends HookWidget {
           child: SupplierItem(
               supplier: v,
               onClick: () {
-                Transition().pushWithTab(context, SupplierDetailPage(supplier: v));
+                Transition().pushWithTab(context, SupplierDetailPage(supplierId: v.id));
               }),
         )));
 

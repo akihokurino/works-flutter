@@ -30,6 +30,24 @@ class Supplier {
 
     return "$year年$month月";
   }
+
+  int? endYear() {
+    if (endYm == null) {
+      return null;
+    }
+
+    final year = endYm!.split("-")[0];
+    return int.tryParse(year);
+  }
+
+  int? endMonth() {
+    if (endYm == null) {
+      return null;
+    }
+
+    final month = endYm!.split("-")[1];
+    return int.tryParse(month);
+  }
 }
 
 extension GraphQLBillingTypeText on GraphQLBillingType {

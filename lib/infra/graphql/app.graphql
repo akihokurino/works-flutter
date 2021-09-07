@@ -127,6 +127,13 @@ mutation UpdateSupplier($id: String!,
         subject: $subject,
         subjectTemplate: $subjectTemplate}) {
         id
+        name
+        billingAmountIncludeTax
+        billingAmountExcludeTax
+        billingType
+        endYm
+        subject
+        subjectTemplate
     }
 }
 

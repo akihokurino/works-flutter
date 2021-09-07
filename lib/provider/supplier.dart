@@ -52,6 +52,35 @@ class _Provider extends StateNotifier<_State> {
 
     state = state.setShouldHud(false);
   }
+
+  Future<AppError?> update(
+      Supplier supplier, String name, String subject, String subjectTemplate, int billingAmount, int endYear, int endMonth) async {
+    if (name.isEmpty || subject.isEmpty || billingAmount == 0) {
+      return AppError("不正な入力です");
+    }
+
+    String endYm = "";
+    if (supplier.billingType == GraphQLBillingType.oneTime) {
+      endYm = "$endYear-$endMonth";
+    }
+
+    state = state.setShouldHud(true);
+
+    final payload = UpdateSupplierMutation(
+        variables: UpdateSupplierArguments(
+      id: supplier.id,
+      name: name,
+      subject: subject,
+      subjectTemplate: subjectTemplate,
+      billingAmount: billingAmount,
+      endYm: endYm,
+    ));
+    final resp = await GQClient().mutation(MutationOptions(document: payload.document, variables: payload.variables.toJson()));
+    final decoded = UpdateSupplier$Mutation.fromJson(resp);
+    state = state.replaceSupplier(decoded.updateSupplier.model());
+
+    state = state.setShouldHud(false);
+  }
 }
 
 class _State {
@@ -75,6 +104,13 @@ class _State {
   _State appendSupplier(Supplier item) {
     List<Supplier> current = suppliers;
     current.insert(0, item);
+    return _State(shouldShowHud: shouldShowHud, suppliers: current);
+  }
+
+  _State replaceSupplier(Supplier item) {
+    List<Supplier> current = suppliers;
+    final index = current.indexWhere((v) => v.id == item.id);
+    current[index] = item;
     return _State(shouldShowHud: shouldShowHud, suppliers: current);
   }
 }

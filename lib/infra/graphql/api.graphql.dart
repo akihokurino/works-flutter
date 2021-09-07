@@ -544,8 +544,32 @@ class UpdateSupplier$Mutation$Supplier extends JsonSerializable
 
   late String id;
 
+  late String name;
+
+  late int billingAmountIncludeTax;
+
+  late int billingAmountExcludeTax;
+
+  @JsonKey(unknownEnumValue: GraphQLBillingType.artemisUnknown)
+  late GraphQLBillingType billingType;
+
+  String? endYm;
+
+  late String subject;
+
+  late String subjectTemplate;
+
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [
+        id,
+        name,
+        billingAmountIncludeTax,
+        billingAmountExcludeTax,
+        billingType,
+        endYm,
+        subject,
+        subjectTemplate
+      ];
   @override
   Map<String, dynamic> toJson() =>
       _$UpdateSupplier$Mutation$SupplierToJson(this);
@@ -1593,6 +1617,48 @@ final UPDATE_SUPPLIER_MUTATION_DOCUMENT = DocumentNode(definitions: [
             selectionSet: SelectionSetNode(selections: [
               FieldNode(
                   name: NameNode(value: 'id'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'name'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'billingAmountIncludeTax'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'billingAmountExcludeTax'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'billingType'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'endYm'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'subject'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null),
+              FieldNode(
+                  name: NameNode(value: 'subjectTemplate'),
                   alias: null,
                   arguments: [],
                   directives: [],
