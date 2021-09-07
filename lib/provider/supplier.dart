@@ -81,6 +81,16 @@ class _Provider extends StateNotifier<_State> {
 
     state = state.setShouldHud(false);
   }
+
+  Future<AppError?> delete(Supplier supplier) async {
+    state = state.setShouldHud(true);
+
+    final payload = DeleteSupplierMutation(variables: DeleteSupplierArguments(id: supplier.id));
+    await GQClient().mutation(MutationOptions(document: payload.document, variables: payload.variables.toJson()));
+    state = state.deleteSupplier(supplier);
+
+    state = state.setShouldHud(false);
+  }
 }
 
 class _State {
@@ -111,6 +121,12 @@ class _State {
     List<Supplier> current = suppliers;
     final index = current.indexWhere((v) => v.id == item.id);
     current[index] = item;
+    return _State(shouldShowHud: shouldShowHud, suppliers: current);
+  }
+
+  _State deleteSupplier(Supplier item) {
+    List<Supplier> current = suppliers;
+    current.removeWhere((v) => v.id == item.id);
     return _State(shouldShowHud: shouldShowHud, suppliers: current);
   }
 }

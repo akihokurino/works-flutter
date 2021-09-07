@@ -9,6 +9,7 @@ import 'package:works_flutter/provider/invoice.dart';
 import 'package:works_flutter/provider/supplier.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/component/appbar.dart';
+import 'package:works_flutter/ui/component/dialog.dart';
 import 'package:works_flutter/ui/font.dart';
 import 'package:works_flutter/ui/invoice_detail/invoice_detail.dart';
 import 'package:works_flutter/ui/supplier_detail/invoice_item.dart';
@@ -28,10 +29,31 @@ class SupplierDetailPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final supplierState = useProvider(supplierProvider);
+    final supplierAction = useContext().read(supplierProvider.notifier);
     final invoiceState = useProvider(invoiceProvider);
     final invoiceAction = useContext().read(invoiceProvider.notifier);
 
-    final supplier = supplierState.suppliers.firstWhere((v) => v.id == supplierId)!;
+    final supplier = () {
+      try {
+        return supplierState.suppliers.firstWhere((v) => v.id == supplierId);
+      } catch (_) {
+        return null;
+      }
+    }();
+
+    if (supplier == null) {
+      Future.delayed(Duration(seconds: 1)).then((_) {
+        Navigator.of(context).pop();
+      });
+      return ModalProgressHUD(
+          progressIndicator: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(ColorPalette.primary),
+          ),
+          child: Container(
+            color: ColorPalette.background,
+          ),
+          inAsyncCall: true);
+    }
 
     useEffect(() {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -168,6 +190,12 @@ class SupplierDetailPage extends HookWidget {
                             ),
                             onPressed: () {
                               Navigator.of(context).pop();
+                              supplierAction.delete(supplier).then((err) {
+                                if (err != null) {
+                                  AppDialog().showErrorAlert(context, err);
+                                  return;
+                                }
+                              });
                             },
                           ),
                         ],
