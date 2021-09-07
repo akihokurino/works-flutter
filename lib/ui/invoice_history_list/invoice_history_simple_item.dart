@@ -38,7 +38,7 @@ class InvoiceHistorySimpleItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        child: Text("${history.supplier.name} / ${history.invoice.totalAmount}円",
+                        child: Text("${history.supplier.name} / ${history.invoice.totalAmountIncludeTax()}円",
                             style: TextStyle(
                               color: ColorPalette.text,
                               fontWeight: Font.normalWeight,

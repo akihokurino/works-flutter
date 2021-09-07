@@ -8,20 +8,40 @@ import 'package:works_flutter/model/invoice.dart';
 import 'package:works_flutter/provider/invoice.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/component/appbar.dart';
+import 'package:works_flutter/ui/component/dialog.dart';
 
 class InvoiceDetailPage extends HookWidget {
-  static Widget init(Invoice invoice) {
-    return InvoiceDetailPage(invoice: invoice);
+  static Widget init(Invoice invoice, Function? onDelete) {
+    return InvoiceDetailPage(invoice: invoice, onDelete: onDelete);
   }
 
-  InvoiceDetailPage({required this.invoice});
+  InvoiceDetailPage({required this.invoice, this.onDelete});
 
   final Invoice invoice;
+  final Function? onDelete;
 
   @override
   Widget build(BuildContext context) {
     final invoiceState = useProvider(invoiceProvider);
     final invoiceAction = useContext().read(invoiceProvider.notifier);
+    final isDeleted = useState(false);
+
+    if (isDeleted.value) {
+      Future.delayed(Duration(seconds: 1)).then((_) {
+        if (onDelete != null) {
+          onDelete!();
+        }
+        Navigator.of(context).pop();
+      });
+      return ModalProgressHUD(
+          progressIndicator: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(ColorPalette.primary),
+          ),
+          child: Container(
+            color: ColorPalette.background,
+          ),
+          inAsyncCall: true);
+    }
 
     useEffect(() {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -48,7 +68,44 @@ class InvoiceDetailPage extends HookWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBarFactory(title: "請求書").build(context),
+      appBar: AppBarFactory(title: "請求書", actions: [
+        Container(
+            child: IconButton(
+                icon: Icon(Icons.settings),
+                color: ColorPalette.primary,
+                onPressed: () {
+                  showCupertinoModalPopup(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CupertinoActionSheet(
+                        actions: [
+                          CupertinoActionSheetAction(
+                            child: Text(
+                              '削除',
+                              style: TextStyle(color: ColorPalette.alertRed),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              invoiceAction.delete(invoice).then((err) {
+                                if (err != null) {
+                                  AppDialog().showErrorAlert(context, err);
+                                  return;
+                                }
+
+                                isDeleted.value = true;
+                              });
+                            },
+                          ),
+                        ],
+                        cancelButton: CupertinoButton(
+                          child: Text('キャンセル'),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                      );
+                    },
+                  );
+                }))
+      ]).build(context),
       body: content,
     );
   }

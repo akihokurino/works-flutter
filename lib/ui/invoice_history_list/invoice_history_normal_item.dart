@@ -60,7 +60,7 @@ class InvoiceHistoryNormalItem extends StatelessWidget {
                         margin: EdgeInsets.only(bottom: 2),
                       ),
                       Container(
-                        child: Text("${history.invoice.totalAmount}円（税込）",
+                        child: Text("${history.invoice.totalAmountIncludeTax()}円（税込）",
                             style: TextStyle(
                               color: ColorPalette.text,
                               fontWeight: Font.boldWeight,

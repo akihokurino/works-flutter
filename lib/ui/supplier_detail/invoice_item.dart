@@ -51,7 +51,7 @@ class InvoiceItem extends StatelessWidget {
                         margin: EdgeInsets.only(bottom: 2),
                       ),
                       Container(
-                        child: Text("${invoice.totalAmount}円（税込）",
+                        child: Text("${invoice.totalAmountIncludeTax()}円（税込）",
                             style: TextStyle(
                               color: ColorPalette.text,
                               fontWeight: Font.boldWeight,

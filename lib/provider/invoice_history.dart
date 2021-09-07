@@ -38,8 +38,8 @@ class _State {
     return _State(shouldShowHud: should, histories: histories);
   }
 
-  _State setHistories(List<InvoiceHistory> histories) {
-    return _State(shouldShowHud: shouldShowHud, histories: histories);
+  _State setHistories(List<InvoiceHistory> items) {
+    return _State(shouldShowHud: shouldShowHud, histories: items);
   }
 }
 

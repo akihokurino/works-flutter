@@ -45,4 +45,8 @@ class Invoice {
         return "";
     }
   }
+
+  int totalAmountIncludeTax() {
+    return totalAmount + tax;
+  }
 }

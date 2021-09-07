@@ -65,7 +65,13 @@ class InvoiceHistoryListPage extends HookWidget {
                             child: InvoiceHistoryNormalItem(
                                 history: v,
                                 onClick: () {
-                                  Transition().pushWithTab(context, InvoiceDetailPage(invoice: v.invoice));
+                                  Transition().pushWithTab(
+                                      context,
+                                      InvoiceDetailPage(
+                                          invoice: v.invoice,
+                                          onDelete: () {
+                                            invoiceHistoryAction.getList(false);
+                                          }));
                                 }),
                           ))
                       .toList(),
@@ -95,7 +101,13 @@ class InvoiceHistoryListPage extends HookWidget {
                       .map((v) => InvoiceHistorySimpleItem(
                           history: v,
                           onClick: () {
-                            Transition().pushWithTab(context, InvoiceDetailPage(invoice: v.invoice));
+                            Transition().pushWithTab(
+                                context,
+                                InvoiceDetailPage(
+                                    invoice: v.invoice,
+                                    onDelete: () {
+                                      invoiceHistoryAction.getList(false);
+                                    }));
                           }))
                       .toList(),
                 ),

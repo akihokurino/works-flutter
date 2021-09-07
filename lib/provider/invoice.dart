@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:works_flutter/infra/graphql/api.dart';
 import 'package:works_flutter/infra/graphql/converter.dart';
 import 'package:works_flutter/infra/graphql_client.dart';
+import 'package:works_flutter/model/errors.dart';
 import 'package:works_flutter/model/invoice.dart';
 
 class _Provider extends StateNotifier<_State> {
@@ -37,6 +38,16 @@ class _Provider extends StateNotifier<_State> {
 
     state = state.setShouldHud(false);
   }
+
+  Future<AppError?> delete(Invoice invoice) async {
+    state = state.setShouldHud(true);
+
+    final payload = DeleteInvoiceMutation(variables: DeleteInvoiceArguments(id: invoice.id));
+    await GQClient().mutation(MutationOptions(document: payload.document, variables: payload.variables.toJson()));
+    state = state.deleteInvoice(invoice);
+
+    state = state.setShouldHud(false);
+  }
 }
 
 class _State {
@@ -54,12 +65,18 @@ class _State {
     return _State(shouldShowHud: should, invoices: invoices, pdfDocument: pdfDocument);
   }
 
-  _State setInvoices(List<Invoice> invoices) {
-    return _State(shouldShowHud: shouldShowHud, invoices: invoices, pdfDocument: pdfDocument);
+  _State setInvoices(List<Invoice> items) {
+    return _State(shouldShowHud: shouldShowHud, invoices: items, pdfDocument: pdfDocument);
   }
 
-  _State setPDFDocument(PDFDocument? doc) {
-    return _State(shouldShowHud: shouldShowHud, invoices: invoices, pdfDocument: doc);
+  _State setPDFDocument(PDFDocument? item) {
+    return _State(shouldShowHud: shouldShowHud, invoices: invoices, pdfDocument: item);
+  }
+
+  _State deleteInvoice(Invoice item) {
+    List<Invoice> current = invoices;
+    current.removeWhere((v) => v.id == item.id);
+    return _State(shouldShowHud: shouldShowHud, invoices: current, pdfDocument: null);
   }
 }
 
