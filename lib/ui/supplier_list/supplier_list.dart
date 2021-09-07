@@ -101,15 +101,19 @@ class SupplierListPage extends HookWidget {
     return Scaffold(
       key: globalKey,
       backgroundColor: Colors.white,
-      appBar: AppBarFactory(title: "取引先", actions: [
-        Container(
-            child: IconButton(
-                icon: Icon(Icons.add),
-                color: ColorPalette.primary,
-                onPressed: () {
-                  Transition().pushWithTab(context, SupplierCreatePage.init());
-                }))
-      ]).build(context),
+      appBar: AppBarFactory(
+              title: "取引先",
+              actions: [
+                Container(
+                    child: IconButton(
+                        icon: Icon(Icons.add),
+                        color: ColorPalette.primary,
+                        onPressed: () {
+                          Transition().pushWithTab(context, SupplierCreatePage.init());
+                        }))
+              ],
+              isDisableBack: true)
+          .build(context),
       body: content,
     );
   }

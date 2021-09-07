@@ -130,16 +130,18 @@ class InvoiceHistoryListPage extends HookWidget {
           key: globalKey,
           backgroundColor: Colors.white,
           appBar: AppBarFactory(
-              title: "履歴",
-              tab: TabBar(
-                isScrollable: false,
-                tabs: _tabs,
-                unselectedLabelColor: ColorPalette.text,
-                indicatorColor: ColorPalette.primary,
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicatorWeight: 2,
-                labelColor: ColorPalette.primary,
-              )).build(context),
+                  title: "履歴",
+                  tab: TabBar(
+                    isScrollable: false,
+                    tabs: _tabs,
+                    unselectedLabelColor: ColorPalette.text,
+                    indicatorColor: ColorPalette.primary,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    indicatorWeight: 2,
+                    labelColor: ColorPalette.primary,
+                  ),
+                  isDisableBack: true)
+              .build(context),
           body: content,
         ));
   }

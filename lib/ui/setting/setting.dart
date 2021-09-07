@@ -69,7 +69,7 @@ class SettingPage extends HookWidget {
     return Scaffold(
       key: globalKey,
       backgroundColor: Colors.white,
-      appBar: AppBarFactory(title: "設定").build(context),
+      appBar: AppBarFactory(title: "設定", isDisableBack: true).build(context),
       body: content,
     );
   }
