@@ -32,7 +32,7 @@ class _Provider extends StateNotifier<_State> {
 
     String endYm = "";
     if (billingType == GraphQLBillingType.oneTime) {
-      endYm = "$endYear-$endMonth";
+      endYm = "$endYear-${endMonth.toString().padLeft(2, "0")}";
     }
 
     state = state.setShouldHud(true);
