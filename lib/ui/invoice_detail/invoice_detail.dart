@@ -84,16 +84,16 @@ class InvoiceDetailPage extends HookWidget {
                               '削除',
                               style: TextStyle(color: ColorPalette.alertRed),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               Navigator.of(context).pop();
-                              invoiceAction.delete(invoice).then((err) {
-                                if (err != null) {
-                                  AppDialog().showErrorAlert(context, err);
-                                  return;
-                                }
 
-                                isDeleted.value = true;
-                              });
+                              final err = await invoiceAction.delete(invoice);
+                              if (err != null) {
+                                AppDialog().showErrorAlert(context, err);
+                                return;
+                              }
+
+                              isDeleted.value = true;
                             },
                           ),
                         ],

@@ -188,14 +188,14 @@ class SupplierDetailPage extends HookWidget {
                               '削除',
                               style: TextStyle(color: ColorPalette.alertRed),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               Navigator.of(context).pop();
-                              supplierAction.delete(supplier).then((err) {
-                                if (err != null) {
-                                  AppDialog().showErrorAlert(context, err);
-                                  return;
-                                }
-                              });
+
+                              final err = await supplierAction.delete(supplier);
+                              if (err != null) {
+                                AppDialog().showErrorAlert(context, err);
+                                return;
+                              }
                             },
                           ),
                         ],

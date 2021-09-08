@@ -60,14 +60,13 @@ class LoginPage extends HookWidget {
                     text: "ログイン",
                     backgroundColor: ColorPalette.primary,
                     textColor: Colors.white,
-                    onClick: () {
-                      authAction.sendVerification(PhoneNumber(val: phoneNumber.value)).then((err) {
-                        if (err != null) {
-                          AppDialog().showErrorAlert(context, err);
-                          return;
-                        }
-                        shouldShowPincodeInput.value = true;
-                      });
+                    onClick: () async {
+                      final err = await authAction.sendVerification(PhoneNumber(val: phoneNumber.value));
+                      if (err != null) {
+                        AppDialog().showErrorAlert(context, err);
+                        return;
+                      }
+                      shouldShowPincodeInput.value = true;
                     }),
               ),
             ],
@@ -87,14 +86,13 @@ class LoginPage extends HookWidget {
               eachFieldHeight: 55,
               pinAnimationType: PinAnimationType.none,
               fieldsCount: 6,
-              onSubmit: (String pin) {
-                authAction.signIn(pin).then((err) {
-                  if (err != null) {
-                    AppDialog().showErrorAlert(context, err);
-                    return;
-                  }
-                  Transition().root(RootPage.init());
-                });
+              onSubmit: (String pin) async {
+                final err = await authAction.signIn(pin);
+                if (err != null) {
+                  AppDialog().showErrorAlert(context, err);
+                  return;
+                }
+                Transition().root(RootPage.init());
               },
               focusNode: _pinPutFocusNode,
               controller: _pinPutController,

@@ -120,6 +120,7 @@ class SenderEditPage extends HookWidget {
                       AppDialog().showErrorAlert(context, err);
                       return;
                     }
+
                     await authAction.getMe();
                     Navigator.of(context).pop();
                   }),
@@ -166,8 +167,8 @@ class SenderEditPage extends HookWidget {
                                 AppDialog().showErrorAlert(context, err);
                                 return;
                               }
-                              await authAction.getMe();
 
+                              await authAction.getMe();
                               isDeleted.value = true;
                             },
                           ),

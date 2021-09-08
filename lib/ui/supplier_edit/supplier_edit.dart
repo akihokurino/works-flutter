@@ -141,17 +141,15 @@ class SupplierEditPage extends HookWidget {
                   text: "更新",
                   backgroundColor: ColorPalette.primary,
                   textColor: Colors.white,
-                  onClick: () {
-                    supplierAction
-                        .update(supplier, name.value, subject.value, subjectTemplate.value, int.tryParse(billingAmount.value) ?? 0,
-                            yearSelection()[endYearIndex.value], monthSelection()[endMonthIndex.value])
-                        .then((err) {
-                      if (err != null) {
-                        AppDialog().showErrorAlert(context, err);
-                        return;
-                      }
-                      Navigator.of(context).pop();
-                    });
+                  onClick: () async {
+                    final err = await supplierAction.update(supplier, name.value, subject.value, subjectTemplate.value,
+                        int.tryParse(billingAmount.value) ?? 0, yearSelection()[endYearIndex.value], monthSelection()[endMonthIndex.value]);
+                    if (err != null) {
+                      AppDialog().showErrorAlert(context, err);
+                      return;
+                    }
+
+                    Navigator.of(context).pop();
                   }),
             ),
           ],

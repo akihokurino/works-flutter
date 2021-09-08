@@ -10,6 +10,7 @@ import 'package:works_flutter/ui/component/appbar.dart';
 import 'package:works_flutter/ui/component/button.dart';
 import 'package:works_flutter/ui/component/dialog.dart';
 import 'package:works_flutter/ui/login/login.dart';
+import 'package:works_flutter/ui/misoca/misoca.dart';
 import 'package:works_flutter/ui/sender_edit/sender_edit.dart';
 import 'package:works_flutter/ui/setting/menu_item.dart';
 import 'package:works_flutter/ui/transition.dart';
@@ -56,21 +57,24 @@ class SettingPage extends HookWidget {
                     onClick: () {
                       Transition().pushWithTab(context, SenderEditPage.init(authState.me?.sender));
                     }),
-                MenuItem(text: "Misoca接続", onClick: () {}),
+                MenuItem(
+                    text: "Misoca接続",
+                    onClick: () {
+                      Transition().pushWithTab(context, MisocaPage.init());
+                    }),
                 Container(
                   margin: EdgeInsets.fromLTRB(20, 40, 20, 40),
                   child: ContainedButton(
                     text: "ログアウト",
                     backgroundColor: ColorPalette.alertRed,
                     textColor: Colors.white,
-                    onClick: () {
-                      authAction.signOut().then((err) {
-                        if (err != null) {
-                          AppDialog().showErrorAlert(context, err);
-                          return;
-                        }
-                        Transition().root(LoginPage.init());
-                      });
+                    onClick: () async {
+                      final err = await authAction.signOut();
+                      if (err != null) {
+                        AppDialog().showErrorAlert(context, err);
+                        return;
+                      }
+                      Transition().root(LoginPage.init());
                     },
                   ),
                 )

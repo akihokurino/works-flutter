@@ -140,23 +140,21 @@ class SupplierCreatePage extends HookWidget {
                   text: "登録",
                   backgroundColor: ColorPalette.primary,
                   textColor: Colors.white,
-                  onClick: () {
-                    supplierAction
-                        .create(
-                            name.value,
-                            subject.value,
-                            subjectTemplate.value,
-                            int.tryParse(billingAmount.value) ?? 0,
-                            billingTypeSelection[billingTypeIndex.value],
-                            yearSelection()[endYearIndex.value],
-                            monthSelection()[endMonthIndex.value])
-                        .then((err) {
-                      if (err != null) {
-                        AppDialog().showErrorAlert(context, err);
-                        return;
-                      }
-                      Navigator.of(context).pop();
-                    });
+                  onClick: () async {
+                    final err = await supplierAction.create(
+                        name.value,
+                        subject.value,
+                        subjectTemplate.value,
+                        int.tryParse(billingAmount.value) ?? 0,
+                        billingTypeSelection[billingTypeIndex.value],
+                        yearSelection()[endYearIndex.value],
+                        monthSelection()[endMonthIndex.value]);
+                    if (err != null) {
+                      AppDialog().showErrorAlert(context, err);
+                      return;
+                    }
+
+                    Navigator.of(context).pop();
                   }),
             ),
           ],
