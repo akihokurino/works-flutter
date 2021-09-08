@@ -9,6 +9,7 @@ import 'package:works_flutter/ui/component/appbar.dart';
 import 'package:works_flutter/ui/component/button.dart';
 import 'package:works_flutter/ui/component/dialog.dart';
 import 'package:works_flutter/ui/login/login.dart';
+import 'package:works_flutter/ui/sender_edit/sender_edit.dart';
 import 'package:works_flutter/ui/setting/menu_item.dart';
 import 'package:works_flutter/ui/transition.dart';
 
@@ -27,6 +28,10 @@ class SettingPage extends HookWidget {
     final authAction = useContext().read(authProvider.notifier);
 
     useEffect(() {
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        authAction.getMe();
+      });
+
       return () {};
     }, const []);
 
@@ -41,7 +46,11 @@ class SettingPage extends HookWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 MenuItem(text: "振込先", onClick: () {}),
-                MenuItem(text: "自社", onClick: () {}),
+                MenuItem(
+                    text: "自社",
+                    onClick: () {
+                      Transition().pushWithTab(context, SenderEditPage.init(authState.me?.sender));
+                    }),
                 MenuItem(text: "Misoca接続", onClick: () {}),
                 Container(
                   margin: EdgeInsets.fromLTRB(20, 40, 20, 40),
