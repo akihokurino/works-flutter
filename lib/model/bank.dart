@@ -8,9 +8,11 @@ class Bank {
   final String accountNumber;
 
   Bank({required this.id, required this.name, required this.code, required this.accountType, required this.accountNumber});
+}
 
-  String accountTypeText() {
-    switch (accountType) {
+extension GraphQLBankAccountTypeText on GraphQLBankAccountType {
+  String text() {
+    switch (this) {
       case GraphQLBankAccountType.savings:
         return "普通";
       case GraphQLBankAccountType.checking:

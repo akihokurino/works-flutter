@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:works_flutter/provider/auth.dart';
+import 'package:works_flutter/ui/bank_edit/bank_edit.dart';
 import 'package:works_flutter/ui/color.dart';
 import 'package:works_flutter/ui/component/appbar.dart';
 import 'package:works_flutter/ui/component/button.dart';
@@ -45,7 +46,11 @@ class SettingPage extends HookWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                MenuItem(text: "振込先", onClick: () {}),
+                MenuItem(
+                    text: "振込先",
+                    onClick: () {
+                      Transition().pushWithTab(context, BankEditPage.init(authState.me?.bank));
+                    }),
                 MenuItem(
                     text: "自社",
                     onClick: () {
