@@ -2,18 +2,14 @@ query GetMe {
     me {
         id
         supplierList {
-            edges {
-                node {
-                    id
-                    name
-                    billingAmountIncludeTax
-                    billingAmountExcludeTax
-                    billingType
-                    endYm
-                    subject
-                    subjectTemplate
-                }
-            }
+            id
+            name
+            billingAmountIncludeTax
+            billingAmountExcludeTax
+            billingType
+            endYm
+            subject
+            subjectTemplate
         }
         sender {
             id
@@ -33,8 +29,8 @@ query GetMe {
     }
 }
 
-query GetInvoiceList($supplierId: String!) {
-    invoiceList(supplierId: $supplierId) {
+query GetInvoiceList($supplierId: String!, $page: Int!, $limit: Int!) {
+    invoiceList(supplierId: $supplierId, page: $page, limit: $limit) {
         edges {
             node {
                 id
@@ -49,11 +45,15 @@ query GetInvoiceList($supplierId: String!) {
                 tax
             }
         }
+        pageInfo {
+            totalCount
+            hasNextPage
+        }
     }
 }
 
-query GetInvoiceHistoryList {
-    invoiceHistoryList {
+query GetInvoiceHistoryList($page: Int!, $limit: Int!) {
+    invoiceHistoryList(page: $page, limit: $limit) {
         edges {
             node {
                 invoice {
@@ -79,6 +79,10 @@ query GetInvoiceHistoryList {
                     subjectTemplate
                 }
             }
+        }
+        pageInfo {
+            totalCount
+            hasNextPage
         }
     }
 }

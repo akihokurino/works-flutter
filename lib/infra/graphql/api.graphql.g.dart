@@ -7,10 +7,9 @@ part of 'api.graphql.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-GetMe$Query$Me$SupplierConnection$SupplierEdge$Supplier
-    _$GetMe$Query$Me$SupplierConnection$SupplierEdge$SupplierFromJson(
-        Map<String, dynamic> json) {
-  return GetMe$Query$Me$SupplierConnection$SupplierEdge$Supplier()
+GetMe$Query$Me$Supplier _$GetMe$Query$Me$SupplierFromJson(
+    Map<String, dynamic> json) {
+  return GetMe$Query$Me$Supplier()
     ..id = json['id'] as String
     ..name = json['name'] as String
     ..billingAmountIncludeTax = json['billingAmountIncludeTax'] as int
@@ -23,19 +22,18 @@ GetMe$Query$Me$SupplierConnection$SupplierEdge$Supplier
     ..subjectTemplate = json['subjectTemplate'] as String;
 }
 
-Map<String, dynamic>
-    _$GetMe$Query$Me$SupplierConnection$SupplierEdge$SupplierToJson(
-            GetMe$Query$Me$SupplierConnection$SupplierEdge$Supplier instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'name': instance.name,
-          'billingAmountIncludeTax': instance.billingAmountIncludeTax,
-          'billingAmountExcludeTax': instance.billingAmountExcludeTax,
-          'billingType': _$GraphQLBillingTypeEnumMap[instance.billingType],
-          'endYm': instance.endYm,
-          'subject': instance.subject,
-          'subjectTemplate': instance.subjectTemplate,
-        };
+Map<String, dynamic> _$GetMe$Query$Me$SupplierToJson(
+        GetMe$Query$Me$Supplier instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'billingAmountIncludeTax': instance.billingAmountIncludeTax,
+      'billingAmountExcludeTax': instance.billingAmountExcludeTax,
+      'billingType': _$GraphQLBillingTypeEnumMap[instance.billingType],
+      'endYm': instance.endYm,
+      'subject': instance.subject,
+      'subjectTemplate': instance.subjectTemplate,
+    };
 
 K _$enumDecode<K, V>(
   Map<K, V> enumValues,
@@ -68,35 +66,6 @@ const _$GraphQLBillingTypeEnumMap = {
   GraphQLBillingType.oneTime: 'OneTime',
   GraphQLBillingType.artemisUnknown: 'ARTEMIS_UNKNOWN',
 };
-
-GetMe$Query$Me$SupplierConnection$SupplierEdge
-    _$GetMe$Query$Me$SupplierConnection$SupplierEdgeFromJson(
-        Map<String, dynamic> json) {
-  return GetMe$Query$Me$SupplierConnection$SupplierEdge()
-    ..node = GetMe$Query$Me$SupplierConnection$SupplierEdge$Supplier.fromJson(
-        json['node'] as Map<String, dynamic>);
-}
-
-Map<String, dynamic> _$GetMe$Query$Me$SupplierConnection$SupplierEdgeToJson(
-        GetMe$Query$Me$SupplierConnection$SupplierEdge instance) =>
-    <String, dynamic>{
-      'node': instance.node.toJson(),
-    };
-
-GetMe$Query$Me$SupplierConnection _$GetMe$Query$Me$SupplierConnectionFromJson(
-    Map<String, dynamic> json) {
-  return GetMe$Query$Me$SupplierConnection()
-    ..edges = (json['edges'] as List<dynamic>)
-        .map((e) => GetMe$Query$Me$SupplierConnection$SupplierEdge.fromJson(
-            e as Map<String, dynamic>))
-        .toList();
-}
-
-Map<String, dynamic> _$GetMe$Query$Me$SupplierConnectionToJson(
-        GetMe$Query$Me$SupplierConnection instance) =>
-    <String, dynamic>{
-      'edges': instance.edges.map((e) => e.toJson()).toList(),
-    };
 
 GetMe$Query$Me$Sender _$GetMe$Query$Me$SenderFromJson(
     Map<String, dynamic> json) {
@@ -150,8 +119,9 @@ const _$GraphQLBankAccountTypeEnumMap = {
 GetMe$Query$Me _$GetMe$Query$MeFromJson(Map<String, dynamic> json) {
   return GetMe$Query$Me()
     ..id = json['id'] as String
-    ..supplierList = GetMe$Query$Me$SupplierConnection.fromJson(
-        json['supplierList'] as Map<String, dynamic>)
+    ..supplierList = (json['supplierList'] as List<dynamic>)
+        .map((e) => GetMe$Query$Me$Supplier.fromJson(e as Map<String, dynamic>))
+        .toList()
     ..sender = json['sender'] == null
         ? null
         : GetMe$Query$Me$Sender.fromJson(json['sender'] as Map<String, dynamic>)
@@ -163,7 +133,7 @@ GetMe$Query$Me _$GetMe$Query$MeFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$GetMe$Query$MeToJson(GetMe$Query$Me instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'supplierList': instance.supplierList.toJson(),
+      'supplierList': instance.supplierList.map((e) => e.toJson()).toList(),
       'sender': instance.sender?.toJson(),
       'bank': instance.bank?.toJson(),
     };
@@ -241,6 +211,21 @@ Map<String, dynamic> _$GetInvoiceList$Query$InvoiceConnection$InvoiceEdgeToJson(
       'node': instance.node.toJson(),
     };
 
+GetInvoiceList$Query$InvoiceConnection$PageInfo
+    _$GetInvoiceList$Query$InvoiceConnection$PageInfoFromJson(
+        Map<String, dynamic> json) {
+  return GetInvoiceList$Query$InvoiceConnection$PageInfo()
+    ..totalCount = json['totalCount'] as int
+    ..hasNextPage = json['hasNextPage'] as bool;
+}
+
+Map<String, dynamic> _$GetInvoiceList$Query$InvoiceConnection$PageInfoToJson(
+        GetInvoiceList$Query$InvoiceConnection$PageInfo instance) =>
+    <String, dynamic>{
+      'totalCount': instance.totalCount,
+      'hasNextPage': instance.hasNextPage,
+    };
+
 GetInvoiceList$Query$InvoiceConnection
     _$GetInvoiceList$Query$InvoiceConnectionFromJson(
         Map<String, dynamic> json) {
@@ -248,13 +233,16 @@ GetInvoiceList$Query$InvoiceConnection
     ..edges = (json['edges'] as List<dynamic>)
         .map((e) => GetInvoiceList$Query$InvoiceConnection$InvoiceEdge.fromJson(
             e as Map<String, dynamic>))
-        .toList();
+        .toList()
+    ..pageInfo = GetInvoiceList$Query$InvoiceConnection$PageInfo.fromJson(
+        json['pageInfo'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$GetInvoiceList$Query$InvoiceConnectionToJson(
         GetInvoiceList$Query$InvoiceConnection instance) =>
     <String, dynamic>{
       'edges': instance.edges.map((e) => e.toJson()).toList(),
+      'pageInfo': instance.pageInfo.toJson(),
     };
 
 GetInvoiceList$Query _$GetInvoiceList$QueryFromJson(Map<String, dynamic> json) {
@@ -377,6 +365,23 @@ Map<String, dynamic>
           'node': instance.node.toJson(),
         };
 
+GetInvoiceHistoryList$Query$InvoiceHistoryConnection$PageInfo
+    _$GetInvoiceHistoryList$Query$InvoiceHistoryConnection$PageInfoFromJson(
+        Map<String, dynamic> json) {
+  return GetInvoiceHistoryList$Query$InvoiceHistoryConnection$PageInfo()
+    ..totalCount = json['totalCount'] as int
+    ..hasNextPage = json['hasNextPage'] as bool;
+}
+
+Map<String, dynamic>
+    _$GetInvoiceHistoryList$Query$InvoiceHistoryConnection$PageInfoToJson(
+            GetInvoiceHistoryList$Query$InvoiceHistoryConnection$PageInfo
+                instance) =>
+        <String, dynamic>{
+          'totalCount': instance.totalCount,
+          'hasNextPage': instance.hasNextPage,
+        };
+
 GetInvoiceHistoryList$Query$InvoiceHistoryConnection
     _$GetInvoiceHistoryList$Query$InvoiceHistoryConnectionFromJson(
         Map<String, dynamic> json) {
@@ -385,7 +390,10 @@ GetInvoiceHistoryList$Query$InvoiceHistoryConnection
         .map((e) =>
             GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge
                 .fromJson(e as Map<String, dynamic>))
-        .toList();
+        .toList()
+    ..pageInfo =
+        GetInvoiceHistoryList$Query$InvoiceHistoryConnection$PageInfo.fromJson(
+            json['pageInfo'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic>
@@ -393,6 +401,7 @@ Map<String, dynamic>
             GetInvoiceHistoryList$Query$InvoiceHistoryConnection instance) =>
         <String, dynamic>{
           'edges': instance.edges.map((e) => e.toJson()).toList(),
+          'pageInfo': instance.pageInfo.toJson(),
         };
 
 GetInvoiceHistoryList$Query _$GetInvoiceHistoryList$QueryFromJson(
@@ -648,6 +657,8 @@ GetInvoiceListArguments _$GetInvoiceListArgumentsFromJson(
     Map<String, dynamic> json) {
   return GetInvoiceListArguments(
     supplierId: json['supplierId'] as String,
+    page: json['page'] as int,
+    limit: json['limit'] as int,
   );
 }
 
@@ -655,6 +666,23 @@ Map<String, dynamic> _$GetInvoiceListArgumentsToJson(
         GetInvoiceListArguments instance) =>
     <String, dynamic>{
       'supplierId': instance.supplierId,
+      'page': instance.page,
+      'limit': instance.limit,
+    };
+
+GetInvoiceHistoryListArguments _$GetInvoiceHistoryListArgumentsFromJson(
+    Map<String, dynamic> json) {
+  return GetInvoiceHistoryListArguments(
+    page: json['page'] as int,
+    limit: json['limit'] as int,
+  );
+}
+
+Map<String, dynamic> _$GetInvoiceHistoryListArgumentsToJson(
+        GetInvoiceHistoryListArguments instance) =>
+    <String, dynamic>{
+      'page': instance.page,
+      'limit': instance.limit,
     };
 
 CreateSupplierArguments _$CreateSupplierArgumentsFromJson(

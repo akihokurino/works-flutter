@@ -27,16 +27,16 @@ extension GetMe on GetMe$Query$Me {
 
     return Me(
       id: id,
-      suppliers: supplierList.edges
+      suppliers: supplierList
           .map((v) => Supplier(
-                id: v.node.id,
-                name: v.node.name,
-                billingAmountIncludeTax: v.node.billingAmountIncludeTax,
-                billingAmountExcludeTax: v.node.billingAmountExcludeTax,
-                billingType: v.node.billingType,
-                endYm: v.node.endYm,
-                subject: v.node.subject,
-                subjectTemplate: v.node.subjectTemplate,
+                id: v.id,
+                name: v.name,
+                billingAmountIncludeTax: v.billingAmountIncludeTax,
+                billingAmountExcludeTax: v.billingAmountExcludeTax,
+                billingType: v.billingType,
+                endYm: v.endYm,
+                subject: v.subject,
+                subjectTemplate: v.subjectTemplate,
               ))
           .toList(),
       sender: _sender,

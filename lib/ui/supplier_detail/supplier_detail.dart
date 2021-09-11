@@ -57,7 +57,7 @@ class SupplierDetailPage extends HookWidget {
 
     useEffect(() {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
-        invoiceAction.getList(supplier.id, false);
+        invoiceAction.initList(supplier.id, false);
       });
 
       return () {};
@@ -137,6 +137,19 @@ class SupplierDetailPage extends HookWidget {
               }),
         )));
 
+    if (invoiceState.hasNext && invoiceState.invoices.length > 0) {
+      list.add(Center(
+        child: Container(
+          margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
+          width: 32.0,
+          height: 32.0,
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(ColorPalette.primary),
+          ),
+        ),
+      ));
+    }
+
     final content = ModalProgressHUD(
         progressIndicator: CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(ColorPalette.primary),
@@ -147,7 +160,7 @@ class SupplierDetailPage extends HookWidget {
                 key: _refreshIndicatorKey,
                 color: ColorPalette.primary,
                 onRefresh: () async {
-                  await invoiceAction.getList(supplier.id, true);
+                  await invoiceAction.initList(supplier.id, true);
                 },
                 child: Scrollbar(
                   child: ListView(
@@ -157,6 +170,9 @@ class SupplierDetailPage extends HookWidget {
                   ),
                 )),
             onNotification: (ScrollNotification notification) {
+              if (notification.metrics.pixels == notification.metrics.maxScrollExtent && invoiceState.hasNext) {
+                invoiceAction.nextList(supplierId);
+              }
               return true;
             },
           ),

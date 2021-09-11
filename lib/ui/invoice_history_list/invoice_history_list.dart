@@ -40,44 +40,63 @@ class InvoiceHistoryListPage extends HookWidget {
 
     useEffect(() {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
-        invoiceHistoryAction.getList(false);
+        invoiceHistoryAction.initList(false);
       });
 
       return () {};
     }, const []);
 
     final normalList = () {
+      List<Widget> list = [];
+      list.addAll(invoiceHistoryState.histories
+          .map((v) => Container(
+                margin: EdgeInsets.only(bottom: 15),
+                child: InvoiceHistoryNormalItem(
+                    history: v,
+                    onClick: () {
+                      Transition().pushWithTab(
+                          context,
+                          InvoiceDetailPage(
+                              invoice: v.invoice,
+                              onDelete: () {
+                                invoiceHistoryAction.initList(false);
+                              }));
+                    }),
+              ))
+          .toList());
+
+      if (invoiceHistoryState.hasNext && invoiceHistoryState.histories.length > 0) {
+        list.add(Center(
+          child: Container(
+            margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
+            width: 32.0,
+            height: 32.0,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(ColorPalette.primary),
+            ),
+          ),
+        ));
+      }
+
       return Container(
         child: NotificationListener(
           child: RefreshIndicator(
               key: _refreshNormalIndicatorKey,
               color: ColorPalette.primary,
               onRefresh: () async {
-                await invoiceHistoryAction.getList(true);
+                await invoiceHistoryAction.initList(true);
               },
               child: Scrollbar(
                 child: ListView(
                   physics: AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
-                  children: invoiceHistoryState.histories
-                      .map((v) => Container(
-                            margin: EdgeInsets.only(bottom: 15),
-                            child: InvoiceHistoryNormalItem(
-                                history: v,
-                                onClick: () {
-                                  Transition().pushWithTab(
-                                      context,
-                                      InvoiceDetailPage(
-                                          invoice: v.invoice,
-                                          onDelete: () {
-                                            invoiceHistoryAction.getList(false);
-                                          }));
-                                }),
-                          ))
-                      .toList(),
+                  children: list,
                 ),
               )),
           onNotification: (ScrollNotification notification) {
+            if (notification.metrics.pixels == notification.metrics.maxScrollExtent && invoiceHistoryState.hasNext) {
+              invoiceHistoryAction.nextList();
+            }
             return true;
           },
         ),
@@ -85,34 +104,53 @@ class InvoiceHistoryListPage extends HookWidget {
     };
 
     final simpleList = () {
+      List<Widget> list = [];
+      list.addAll(invoiceHistoryState.histories
+          .map((v) => InvoiceHistorySimpleItem(
+              history: v,
+              onClick: () {
+                Transition().pushWithTab(
+                    context,
+                    InvoiceDetailPage(
+                        invoice: v.invoice,
+                        onDelete: () {
+                          invoiceHistoryAction.initList(false);
+                        }));
+              }))
+          .toList());
+
+      if (invoiceHistoryState.hasNext && invoiceHistoryState.histories.length > 0) {
+        list.add(Center(
+          child: Container(
+            margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
+            width: 32.0,
+            height: 32.0,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(ColorPalette.primary),
+            ),
+          ),
+        ));
+      }
+
       return Container(
         child: NotificationListener(
           child: RefreshIndicator(
               key: _refreshSimpleIndicatorKey,
               color: ColorPalette.primary,
               onRefresh: () async {
-                await invoiceHistoryAction.getList(true);
+                await invoiceHistoryAction.initList(true);
               },
               child: Scrollbar(
                 child: ListView(
                   physics: AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  children: invoiceHistoryState.histories
-                      .map((v) => InvoiceHistorySimpleItem(
-                          history: v,
-                          onClick: () {
-                            Transition().pushWithTab(
-                                context,
-                                InvoiceDetailPage(
-                                    invoice: v.invoice,
-                                    onDelete: () {
-                                      invoiceHistoryAction.getList(false);
-                                    }));
-                          }))
-                      .toList(),
+                  children: list,
                 ),
               )),
           onNotification: (ScrollNotification notification) {
+            if (notification.metrics.pixels == notification.metrics.maxScrollExtent && invoiceHistoryState.hasNext) {
+              invoiceHistoryAction.nextList();
+            }
             return true;
           },
         ),

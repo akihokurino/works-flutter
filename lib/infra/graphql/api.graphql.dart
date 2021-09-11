@@ -8,13 +8,11 @@ import 'package:gql/ast.dart';
 part 'api.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class GetMe$Query$Me$SupplierConnection$SupplierEdge$Supplier
-    extends JsonSerializable with EquatableMixin {
-  GetMe$Query$Me$SupplierConnection$SupplierEdge$Supplier();
+class GetMe$Query$Me$Supplier extends JsonSerializable with EquatableMixin {
+  GetMe$Query$Me$Supplier();
 
-  factory GetMe$Query$Me$SupplierConnection$SupplierEdge$Supplier.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetMe$Query$Me$SupplierConnection$SupplierEdge$SupplierFromJson(json);
+  factory GetMe$Query$Me$Supplier.fromJson(Map<String, dynamic> json) =>
+      _$GetMe$Query$Me$SupplierFromJson(json);
 
   late String id;
 
@@ -45,44 +43,7 @@ class GetMe$Query$Me$SupplierConnection$SupplierEdge$Supplier
         subjectTemplate
       ];
   @override
-  Map<String, dynamic> toJson() =>
-      _$GetMe$Query$Me$SupplierConnection$SupplierEdge$SupplierToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetMe$Query$Me$SupplierConnection$SupplierEdge extends JsonSerializable
-    with EquatableMixin {
-  GetMe$Query$Me$SupplierConnection$SupplierEdge();
-
-  factory GetMe$Query$Me$SupplierConnection$SupplierEdge.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetMe$Query$Me$SupplierConnection$SupplierEdgeFromJson(json);
-
-  late GetMe$Query$Me$SupplierConnection$SupplierEdge$Supplier node;
-
-  @override
-  List<Object?> get props => [node];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$GetMe$Query$Me$SupplierConnection$SupplierEdgeToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GetMe$Query$Me$SupplierConnection extends JsonSerializable
-    with EquatableMixin {
-  GetMe$Query$Me$SupplierConnection();
-
-  factory GetMe$Query$Me$SupplierConnection.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetMe$Query$Me$SupplierConnectionFromJson(json);
-
-  late List<GetMe$Query$Me$SupplierConnection$SupplierEdge> edges;
-
-  @override
-  List<Object?> get props => [edges];
-  @override
-  Map<String, dynamic> toJson() =>
-      _$GetMe$Query$Me$SupplierConnectionToJson(this);
+  Map<String, dynamic> toJson() => _$GetMe$Query$Me$SupplierToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -143,7 +104,7 @@ class GetMe$Query$Me extends JsonSerializable with EquatableMixin {
 
   late String id;
 
-  late GetMe$Query$Me$SupplierConnection supplierList;
+  late List<GetMe$Query$Me$Supplier> supplierList;
 
   GetMe$Query$Me$Sender? sender;
 
@@ -239,6 +200,26 @@ class GetInvoiceList$Query$InvoiceConnection$InvoiceEdge
 }
 
 @JsonSerializable(explicitToJson: true)
+class GetInvoiceList$Query$InvoiceConnection$PageInfo extends JsonSerializable
+    with EquatableMixin {
+  GetInvoiceList$Query$InvoiceConnection$PageInfo();
+
+  factory GetInvoiceList$Query$InvoiceConnection$PageInfo.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetInvoiceList$Query$InvoiceConnection$PageInfoFromJson(json);
+
+  late int totalCount;
+
+  late bool hasNextPage;
+
+  @override
+  List<Object?> get props => [totalCount, hasNextPage];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetInvoiceList$Query$InvoiceConnection$PageInfoToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class GetInvoiceList$Query$InvoiceConnection extends JsonSerializable
     with EquatableMixin {
   GetInvoiceList$Query$InvoiceConnection();
@@ -249,8 +230,10 @@ class GetInvoiceList$Query$InvoiceConnection extends JsonSerializable
 
   late List<GetInvoiceList$Query$InvoiceConnection$InvoiceEdge> edges;
 
+  late GetInvoiceList$Query$InvoiceConnection$PageInfo pageInfo;
+
   @override
-  List<Object?> get props => [edges];
+  List<Object?> get props => [edges, pageInfo];
   @override
   Map<String, dynamic> toJson() =>
       _$GetInvoiceList$Query$InvoiceConnectionToJson(this);
@@ -412,6 +395,28 @@ class GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge
 }
 
 @JsonSerializable(explicitToJson: true)
+class GetInvoiceHistoryList$Query$InvoiceHistoryConnection$PageInfo
+    extends JsonSerializable with EquatableMixin {
+  GetInvoiceHistoryList$Query$InvoiceHistoryConnection$PageInfo();
+
+  factory GetInvoiceHistoryList$Query$InvoiceHistoryConnection$PageInfo.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetInvoiceHistoryList$Query$InvoiceHistoryConnection$PageInfoFromJson(
+          json);
+
+  late int totalCount;
+
+  late bool hasNextPage;
+
+  @override
+  List<Object?> get props => [totalCount, hasNextPage];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetInvoiceHistoryList$Query$InvoiceHistoryConnection$PageInfoToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class GetInvoiceHistoryList$Query$InvoiceHistoryConnection
     extends JsonSerializable with EquatableMixin {
   GetInvoiceHistoryList$Query$InvoiceHistoryConnection();
@@ -424,8 +429,10 @@ class GetInvoiceHistoryList$Query$InvoiceHistoryConnection
           GetInvoiceHistoryList$Query$InvoiceHistoryConnection$InvoiceHistoryEdge>
       edges;
 
+  late GetInvoiceHistoryList$Query$InvoiceHistoryConnection$PageInfo pageInfo;
+
   @override
-  List<Object?> get props => [edges];
+  List<Object?> get props => [edges, pageInfo];
   @override
   Map<String, dynamic> toJson() =>
       _$GetInvoiceHistoryList$Query$InvoiceHistoryConnectionToJson(this);
@@ -814,69 +821,53 @@ final GET_ME_QUERY_DOCUMENT = DocumentNode(definitions: [
                   directives: [],
                   selectionSet: SelectionSetNode(selections: [
                     FieldNode(
-                        name: NameNode(value: 'edges'),
+                        name: NameNode(value: 'id'),
                         alias: null,
                         arguments: [],
                         directives: [],
-                        selectionSet: SelectionSetNode(selections: [
-                          FieldNode(
-                              name: NameNode(value: 'node'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: SelectionSetNode(selections: [
-                                FieldNode(
-                                    name: NameNode(value: 'id'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null),
-                                FieldNode(
-                                    name: NameNode(value: 'name'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null),
-                                FieldNode(
-                                    name: NameNode(
-                                        value: 'billingAmountIncludeTax'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null),
-                                FieldNode(
-                                    name: NameNode(
-                                        value: 'billingAmountExcludeTax'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null),
-                                FieldNode(
-                                    name: NameNode(value: 'billingType'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null),
-                                FieldNode(
-                                    name: NameNode(value: 'endYm'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null),
-                                FieldNode(
-                                    name: NameNode(value: 'subject'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null),
-                                FieldNode(
-                                    name: NameNode(value: 'subjectTemplate'),
-                                    alias: null,
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: null)
-                              ]))
-                        ]))
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'name'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'billingAmountIncludeTax'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'billingAmountExcludeTax'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'billingType'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'endYm'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'subject'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'subjectTemplate'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
                   ])),
               FieldNode(
                   name: NameNode(value: 'sender'),
@@ -979,7 +970,8 @@ class GetMeQuery extends GraphQLQuery<GetMe$Query, JsonSerializable> {
 
 @JsonSerializable(explicitToJson: true)
 class GetInvoiceListArguments extends JsonSerializable with EquatableMixin {
-  GetInvoiceListArguments({required this.supplierId});
+  GetInvoiceListArguments(
+      {required this.supplierId, required this.page, required this.limit});
 
   @override
   factory GetInvoiceListArguments.fromJson(Map<String, dynamic> json) =>
@@ -987,8 +979,12 @@ class GetInvoiceListArguments extends JsonSerializable with EquatableMixin {
 
   late String supplierId;
 
+  late int page;
+
+  late int limit;
+
   @override
-  List<Object?> get props => [supplierId];
+  List<Object?> get props => [supplierId, page, limit];
   @override
   Map<String, dynamic> toJson() => _$GetInvoiceListArgumentsToJson(this);
 }
@@ -1003,6 +999,16 @@ final GET_INVOICE_LIST_QUERY_DOCUMENT = DocumentNode(definitions: [
             type:
                 NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
             defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'page')),
+            type: NamedTypeNode(name: NameNode(value: 'Int'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'limit')),
+            type: NamedTypeNode(name: NameNode(value: 'Int'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
             directives: [])
       ],
       directives: [],
@@ -1013,7 +1019,13 @@ final GET_INVOICE_LIST_QUERY_DOCUMENT = DocumentNode(definitions: [
             arguments: [
               ArgumentNode(
                   name: NameNode(value: 'supplierId'),
-                  value: VariableNode(name: NameNode(value: 'supplierId')))
+                  value: VariableNode(name: NameNode(value: 'supplierId'))),
+              ArgumentNode(
+                  name: NameNode(value: 'page'),
+                  value: VariableNode(name: NameNode(value: 'page'))),
+              ArgumentNode(
+                  name: NameNode(value: 'limit'),
+                  value: VariableNode(name: NameNode(value: 'limit')))
             ],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
@@ -1090,6 +1102,25 @@ final GET_INVOICE_LIST_QUERY_DOCUMENT = DocumentNode(definitions: [
                               directives: [],
                               selectionSet: null)
                         ]))
+                  ])),
+              FieldNode(
+                  name: NameNode(value: 'pageInfo'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'totalCount'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'hasNextPage'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
                   ]))
             ]))
       ]))
@@ -1115,17 +1146,54 @@ class GetInvoiceListQuery
       GetInvoiceList$Query.fromJson(json);
 }
 
+@JsonSerializable(explicitToJson: true)
+class GetInvoiceHistoryListArguments extends JsonSerializable
+    with EquatableMixin {
+  GetInvoiceHistoryListArguments({required this.page, required this.limit});
+
+  @override
+  factory GetInvoiceHistoryListArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetInvoiceHistoryListArgumentsFromJson(json);
+
+  late int page;
+
+  late int limit;
+
+  @override
+  List<Object?> get props => [page, limit];
+  @override
+  Map<String, dynamic> toJson() => _$GetInvoiceHistoryListArgumentsToJson(this);
+}
+
 final GET_INVOICE_HISTORY_LIST_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
       name: NameNode(value: 'GetInvoiceHistoryList'),
-      variableDefinitions: [],
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'page')),
+            type: NamedTypeNode(name: NameNode(value: 'Int'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'limit')),
+            type: NamedTypeNode(name: NameNode(value: 'Int'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
       directives: [],
       selectionSet: SelectionSetNode(selections: [
         FieldNode(
             name: NameNode(value: 'invoiceHistoryList'),
             alias: null,
-            arguments: [],
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'page'),
+                  value: VariableNode(name: NameNode(value: 'page'))),
+              ArgumentNode(
+                  name: NameNode(value: 'limit'),
+                  value: VariableNode(name: NameNode(value: 'limit')))
+            ],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FieldNode(
@@ -1265,14 +1333,33 @@ final GET_INVOICE_HISTORY_LIST_QUERY_DOCUMENT = DocumentNode(definitions: [
                                     selectionSet: null)
                               ]))
                         ]))
+                  ])),
+              FieldNode(
+                  name: NameNode(value: 'pageInfo'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: SelectionSetNode(selections: [
+                    FieldNode(
+                        name: NameNode(value: 'totalCount'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null),
+                    FieldNode(
+                        name: NameNode(value: 'hasNextPage'),
+                        alias: null,
+                        arguments: [],
+                        directives: [],
+                        selectionSet: null)
                   ]))
             ]))
       ]))
 ]);
 
-class GetInvoiceHistoryListQuery
-    extends GraphQLQuery<GetInvoiceHistoryList$Query, JsonSerializable> {
-  GetInvoiceHistoryListQuery();
+class GetInvoiceHistoryListQuery extends GraphQLQuery<
+    GetInvoiceHistoryList$Query, GetInvoiceHistoryListArguments> {
+  GetInvoiceHistoryListQuery({required this.variables});
 
   @override
   final DocumentNode document = GET_INVOICE_HISTORY_LIST_QUERY_DOCUMENT;
@@ -1281,7 +1368,10 @@ class GetInvoiceHistoryListQuery
   final String operationName = 'GetInvoiceHistoryList';
 
   @override
-  List<Object?> get props => [document, operationName];
+  final GetInvoiceHistoryListArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
   @override
   GetInvoiceHistoryList$Query parse(Map<String, dynamic> json) =>
       GetInvoiceHistoryList$Query.fromJson(json);

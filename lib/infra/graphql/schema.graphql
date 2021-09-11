@@ -16,7 +16,7 @@ type Supplier implements Node {
   endYm: String
   subject: String!
   subjectTemplate: String!
-  invoiceList: InvoiceConnection!
+  latestInvoiceList: [Invoice!]!
 }
 
 type Mutation {
@@ -37,6 +37,7 @@ type Mutation {
 
 type InvoiceHistoryConnection {
   edges: [InvoiceHistoryEdge!]!
+  pageInfo: PageInfo!
 }
 
 input DeleteBankInput {
@@ -49,9 +50,9 @@ input DeleteInvoiceInput {
 
 type Query {
   me: Me!
-  supplierList: SupplierConnection!
-  invoiceList(supplierId: String!): InvoiceConnection!
-  invoiceHistoryList: InvoiceHistoryConnection!
+  supplierList: [Supplier!]!
+  invoiceList(supplierId: String!, page: Int!, limit: Int!): InvoiceConnection!
+  invoiceHistoryList(page: Int!, limit: Int!): InvoiceHistoryConnection!
 }
 
 type InvoiceHistory implements Node {
@@ -101,7 +102,7 @@ type InvoiceHistoryEdge {
 
 type Me implements Node {
   id: ID!
-  supplierList: SupplierConnection!
+  supplierList: [Supplier!]!
   sender: Sender
   bank: Bank
 }
@@ -115,20 +116,12 @@ enum GraphQLBankAccountType {
   Checking
 }
 
-type SupplierEdge {
-  node: Supplier!
+input ConnectMisocaInput {
+  code: String!
 }
 
 type InvoiceEdge {
   node: Invoice!
-}
-
-type SupplierConnection {
-  edges: [SupplierEdge!]!
-}
-
-input ConnectMisocaInput {
-  code: String!
 }
 
 input DeleteSupplierInput {
@@ -137,6 +130,7 @@ input DeleteSupplierInput {
 
 type InvoiceConnection {
   edges: [InvoiceEdge!]!
+  pageInfo: PageInfo!
 }
 
 interface Node {
@@ -165,6 +159,11 @@ input RegisterBankInput {
 
 input DeleteSenderInput {
   id: String!
+}
+
+type PageInfo {
+  totalCount: Int!
+  hasNextPage: Boolean!
 }
 
 enum GraphQLInvoiceStatus {
